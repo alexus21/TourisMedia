@@ -1,12 +1,19 @@
-package com.ues.tourismedia.validations;
+package ues.alexus21.travelingapp.validations;
+
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class UserRegistrationValidation {
 
-    public static boolean validateEmail(String email) {
-        return email.contains("@gmail.com") || email.contains("@hotmail.com") ||
-                email.contains("@yahoo.com") || email.contains("@outlook.com") ||
-                email.contains("@live.com") || email.contains("@icloud.com") ||
-                email.contains("@aol.com") || email.contains("@protonmail.com");
+    public static boolean validateEmailStructure(String email) {
+        return EmailChecker.validDomainEmail(email);
+    }
+
+    public static boolean isEmailEmpty(String email) {
+        return EmailChecker.isEmailEmpty(email);
+    }
+
+    public static boolean isEmailValid(String email) {
+        return EmailChecker.isEmailValid(email);
     }
 
     public static boolean isPasswordComplex(String password) {

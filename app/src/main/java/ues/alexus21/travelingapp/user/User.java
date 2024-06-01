@@ -1,4 +1,4 @@
-package com.ues.tourismedia.user;
+package ues.alexus21.travelingapp.user;
 
 public class User {
     public String id;

@@ -1,22 +1,31 @@
 package ues.alexus21.travelingapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import ues.alexus21.travelingapp.user.User;
+import ues.alexus21.travelingapp.validations.EmailChecker;
+import ues.alexus21.travelingapp.validations.EncryptPassword;
+import ues.alexus21.travelingapp.validations.UserRegistrationValidation;
 
 public class Register extends AppCompatActivity {
 
     public DatabaseReference reference;
+    private FirebaseFirestore db;
     public EditText txtCorreoRegister, txtPasswordRegister, txtRetypePasswordRegister;
     public Button btnSignUp;
 
@@ -36,43 +45,80 @@ public class Register extends AppCompatActivity {
             String password = txtPasswordRegister.getText().toString();
             String retypePassword = txtRetypePasswordRegister.getText().toString();
 
-            if (!com.ues.tourismedia.validations.UserRegistrationValidation.validateEmail(email)) {
+            if (!UserRegistrationValidation.validateEmailStructure(email)) {
                 Toast.makeText(this, "El correo debe ser de un dominio permitido", Toast.LENGTH_SHORT).show();
                 txtCorreoRegister.setError("");
                 return;
             }
 
-            if (com.ues.tourismedia.validations.UserRegistrationValidation.isPasswordEmpty(password)) {
+            if (UserRegistrationValidation.isEmailEmpty(email)) {
+                Toast.makeText(this, "El correo no puede estar vacío", Toast.LENGTH_SHORT).show();
+                txtCorreoRegister.setError("");
+                return;
+            }
+
+            if (!UserRegistrationValidation.isEmailValid(email)) {
+                Toast.makeText(this, "El correo debe tener un @ y un .", Toast.LENGTH_SHORT).show();
+                txtCorreoRegister.setError("");
+                return;
+            }
+
+
+            if (UserRegistrationValidation.isPasswordEmpty(password)) {
                 Toast.makeText(this, "La contraseña no puede estar vacía", Toast.LENGTH_SHORT).show();
                 txtPasswordRegister.setError("");
                 return;
             }
 
-            if (!com.ues.tourismedia.validations.UserRegistrationValidation.isPasswordComplex(password)) {
+            if (!UserRegistrationValidation.isPasswordComplex(password)) {
                 Toast.makeText(this, "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, " +
                         "un número y un caracter especial", Toast.LENGTH_SHORT).show();
                 txtPasswordRegister.setError("");
                 return;
             }
 
-            if (!com.ues.tourismedia.validations.UserRegistrationValidation.validateRetypePassword(password, retypePassword)) {
+            if (!UserRegistrationValidation.validateRetypePassword(password, retypePassword)) {
                 Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
                 txtRetypePasswordRegister.setError("");
                 return;
             }
 
-            reference = FirebaseDatabase.getInstance().getReference();
-            String id = reference.push().getKey();
-            password = com.ues.tourismedia.validations.EncryptPassword.encryptPassword(password);
-            com.ues.tourismedia.user.User user = new com.ues.tourismedia.user.User(id, email, password);
-            System.out.println(user);
-            reference.child("users").push().setValue(user)
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(this, "Usuario registrado", Toast.LENGTH_SHORT).show();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
+            DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("users");
+            databaseRef.orderByChild("email").equalTo(email)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                // El correo electrónico ya existe
+                                Toast.makeText(Register.this, "El correo electrónico ya está registrado", Toast.LENGTH_SHORT).show();
+                            } else {
+                                registerUser(email, password);
+                                Intent listaDestinos = new Intent(Register.this, ListaDestinos.class);
+                                startActivity(listaDestinos);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            // Manejo de errores
+                            Toast.makeText(Register.this, "Error al verificar el correo electrónico", Toast.LENGTH_SHORT).show();
+                        }
                     });
         });
+    }
+
+    void registerUser(String email, String password) {
+        reference = FirebaseDatabase.getInstance().getReference();
+        String id = reference.push().getKey();
+        password = EncryptPassword.encryptPassword(password);
+        User user = new User(id, email, password);
+        System.out.println(user);
+        reference.child("users").push().setValue(user)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "Usuario registrado", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
+                });
     }
 }

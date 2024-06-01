@@ -1,4 +1,4 @@
-package com.ues.tourismedia.validations;
+package ues.alexus21.travelingapp.validations;
 
 import java.security.MessageDigest;
 
