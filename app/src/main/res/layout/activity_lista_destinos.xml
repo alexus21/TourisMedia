@@ -142,5 +142,4 @@
         app:layout_constraintVertical_bias="1.0"
         app:menu="@menu/navegation" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

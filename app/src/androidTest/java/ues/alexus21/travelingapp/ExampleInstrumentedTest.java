@@ -1,4 +1,4 @@
-package com.ues.tourismedia;
+package ues.alexus21.travelingapp;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.ues.tourismedia", appContext.getPackageName());
+        assertEquals("ues.alexus21.travelingapp", appContext.getPackageName());
     }
 }

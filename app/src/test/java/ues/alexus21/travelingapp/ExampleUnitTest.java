@@ -1,4 +1,4 @@
-package com.ues.tourismedia;
+package ues.alexus21.travelingapp;
 
 import org.junit.Test;
 

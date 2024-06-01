@@ -74,29 +74,7 @@
 
                 <Space
                     android:layout_width="349dp"
-                    android:layout_height="18dp" />
-
-                <TextView
-                    android:id="@+id/lblnombre_rgt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:fontFamily="@font/comfortaa_bold"
-                    android:text=" NOMBRE USUARIO"
-                    android:textColor="@color/darkgrey"
-                    android:textSize="17sp" />
-
-                <EditText
-                    android:id="@+id/txtUsuarioRegister"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:fontFamily="@font/comfortaa_regular"
-                    android:hint="Ingrese un usuario"
-                    android:inputType="text"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/grey"
-                    android:textSize="18sp" />
+                    android:layout_height="40dp" />
 
                 <Space
                     android:layout_width="match_parent"
@@ -153,9 +131,9 @@
                     app:passwordToggleTint="@color/blue_rackley">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/txtContrasenaRegister"
+                        android:id="@+id/txtPasswordRegister"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:fontFamily="@font/comfortaa_regular"
                         android:inputType="textPassword"
                         android:textColor="@color/black"
@@ -177,12 +155,17 @@
                     android:textSize="17sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="349dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint=" Repita su contraseña">
+                    android:hint=" Repita su contraseña"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"
+                    app:boxStrokeColor="@color/black"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/blue_rackley">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/txtRetypePassword_rgt"
+                        android:id="@+id/txtRetypePasswordRegister"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/comfortaa_regular"
@@ -194,11 +177,11 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp" />
+                    android:layout_width="346dp"
+                    android:layout_height="73dp" />
 
                 <Button
-                    android:id="@+id/btn_registrar"
+                    android:id="@+id/btnSignUp"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

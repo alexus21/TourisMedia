@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "264257385927",
+    "project_id": "travelingapp-a67bb",
+    "storage_bucket": "travelingapp-a67bb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:264257385927:android:0bfb4089dbf6cee95c55e2",
+        "android_client_info": {
+          "package_name": "ues.alexus21.travelingapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIYtLzrDlzMAoyjbyax9d2irPPoshVVL4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
