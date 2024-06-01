@@ -67,14 +67,14 @@
             <LinearLayout
                 android:id="@+id/linearLogin"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="525dp"
                 android:background="@color/sky_blue"
                 android:orientation="vertical"
                 android:padding="16dp">
 
                 <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp" />
+                    android:layout_width="349dp"
+                    android:layout_height="18dp" />
 
                 <TextView
                     android:id="@+id/lblnombre_rgt"
@@ -131,7 +131,7 @@
                     android:layout_height="10dp" />
 
                 <TextView
-                    android:id="@+id/lblcontraseña_rgt"
+                    android:id="@+id/lblpassword_rgt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -165,6 +165,34 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                    android:id="@+id/lbl_rertype_password_rgt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:inputType="text"
+                    android:text=" CONTRASEÑA"
+                    android:textColor="@color/darkgrey"
+                    android:textSize="17sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="349dp"
+                    android:layout_height="wrap_content"
+                    android:hint=" Repita su contraseña">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txtRetypePassword_rgt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/comfortaa_regular"
+                        android:inputType="textPassword"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/grey"
+                        android:textSize="18sp"
+                        app:passwordToggleEnabled="true" />
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="30dp" />
@@ -182,8 +210,8 @@
                     android:textSize="16sp" />
 
                 <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp" />
+                    android:layout_width="346dp"
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/lbl_register_aActivityLogin"
