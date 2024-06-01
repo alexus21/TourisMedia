@@ -22,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import ues.alexus21.travelingapp.localstorage.ILocalUserDAO;
+import ues.alexus21.travelingapp.localstorage.LocalUserModel;
 import ues.alexus21.travelingapp.user.User;
 import ues.alexus21.travelingapp.validations.EncryptPassword;
 import ues.alexus21.travelingapp.validations.UserRegistrationValidation;
@@ -35,6 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     SpannableString spannableString;
     TextView lbl_register_aActivityLogin;
+    public ILocalUserDAO localUserDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
         txtRetypePasswordRegister = findViewById(R.id.txtRetypePasswordRegister);
         btnSignUp = findViewById(R.id.btnSignUp);
         lbl_register_aActivityLogin = findViewById(R.id.lbl_register_aActivityLogin);
+        localUserDAO = DatabaseSingleton.getDatabase(this).localUserDAO();
 
         String text = "¿Tienes cuenta? ¡Ingresa!";
         spannableString = new SpannableString(text);
@@ -89,7 +93,6 @@ public class RegisterActivity extends AppCompatActivity {
                 txtCorreoRegister.setError("");
                 return;
             }
-
 
             if (UserRegistrationValidation.isPasswordEmpty(password)) {
                 Toast.makeText(this, "La contraseña no puede estar vacía", Toast.LENGTH_SHORT).show();
@@ -144,7 +147,7 @@ public class RegisterActivity extends AppCompatActivity {
         String id = reference.push().getKey();
         password = EncryptPassword.encryptPassword(password);
         User user = new User(id, email, password);
-        System.out.println(user);
+        localUserDAO.insertUser(new LocalUserModel(email, password, true, id));
         reference.child("users").push().setValue(user)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Usuario registrado", Toast.LENGTH_SHORT).show();
