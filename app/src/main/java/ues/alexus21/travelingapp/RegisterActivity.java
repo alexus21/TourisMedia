@@ -2,8 +2,13 @@ package ues.alexus21.travelingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -18,16 +23,18 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import ues.alexus21.travelingapp.user.User;
-import ues.alexus21.travelingapp.validations.EmailChecker;
 import ues.alexus21.travelingapp.validations.EncryptPassword;
 import ues.alexus21.travelingapp.validations.UserRegistrationValidation;
 
-public class Register extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     public DatabaseReference reference;
     private FirebaseFirestore db;
     public EditText txtCorreoRegister, txtPasswordRegister, txtRetypePasswordRegister;
     public Button btnSignUp;
+
+    SpannableString spannableString;
+    TextView lbl_register_aActivityLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +46,26 @@ public class Register extends AppCompatActivity {
         txtPasswordRegister = findViewById(R.id.txtPasswordRegister);
         txtRetypePasswordRegister = findViewById(R.id.txtRetypePasswordRegister);
         btnSignUp = findViewById(R.id.btnSignUp);
+        lbl_register_aActivityLogin = findViewById(R.id.lbl_register_aActivityLogin);
+
+        String text = "¿Tienes cuenta? ¡Ingresa!";
+        spannableString = new SpannableString(text);
+
+        int startIndex = 0;
+        int endIndex = text.length();
+
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View widget) {
+                Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(loginIntent);
+                finish();
+            }
+        };
+
+        spannableString.setSpan(clickableSpan, startIndex, endIndex, 0);
+        lbl_register_aActivityLogin.setText(spannableString);
+        lbl_register_aActivityLogin.setMovementMethod(LinkMovementMethod.getInstance());
 
         btnSignUp.setOnClickListener(v -> {
             String email = txtCorreoRegister.getText().toString();
@@ -93,12 +120,12 @@ public class Register extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.exists()) {
                                 // El correo electrónico ya existe
-                                Toast.makeText(Register.this, "El correo electrónico ya está registrado", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, "El correo electrónico ya está registrado", Toast.LENGTH_SHORT).show();
                                 txtCorreoRegister.setError("El correo ya está registrado");
                                 btnSignUp.setEnabled(true); // Habilitar el botón si el correo ya está registrado
                             } else {
                                 registerUser(email, password);
-                                Intent listaDestinos = new Intent(Register.this, ListaDestinos.class);
+                                Intent listaDestinos = new Intent(RegisterActivity.this, ListaDestinosActivity.class);
                                 startActivity(listaDestinos);
                             }
                         }
@@ -106,7 +133,7 @@ public class Register extends AppCompatActivity {
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
                             // Manejo de errores
-                            Toast.makeText(Register.this, "Error al verificar el correo electrónico", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Error al verificar el correo electrónico", Toast.LENGTH_SHORT).show();
                         }
                     });
         });

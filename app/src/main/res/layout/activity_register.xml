@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/darkgrey"
-    tools:context=".Register">
+    tools:context=".RegisterActivity">
 
     <!-- Register -->
 
@@ -201,7 +201,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/comfortaa_regular"
-                    android:text="¿Tienes cuenta? Ingresa!"
+                    android:text="¿Tienes cuenta? ¡Ingresa!"
                     android:textAlignment="center"
                     android:textColor="@color/darkgrey"
                     android:textSize="16sp"
