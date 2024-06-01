@@ -149,7 +149,7 @@
                     android:fontFamily="@font/comfortaa_bold"
                     android:background="@drawable/bg_boton2"
                     android:backgroundTint="@color/yellow_peach"
-                    android:text="Ingresa"
+                    android:text="Ingresar"
                     android:textSize="16sp"
                     android:textColor="@color/darkgrey"/>
 

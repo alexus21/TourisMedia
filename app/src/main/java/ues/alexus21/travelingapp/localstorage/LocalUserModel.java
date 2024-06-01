@@ -13,11 +13,11 @@ public class LocalUserModel {
     @ColumnInfo
     public String password;
     @ColumnInfo
-    public boolean isLogged;
+    public int isLogged;
     @ColumnInfo
     public String user_remote_id;
 
-    public LocalUserModel(String email, String password, boolean isLogged, String user_remote_id) {
+    public LocalUserModel(String email, String password, int isLogged, String user_remote_id) {
         this.email = email;
         this.password = password;
         this.isLogged = isLogged;

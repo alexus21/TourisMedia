@@ -69,6 +69,7 @@ public class ListaDestinosActivity extends AppCompatActivity {
                             }
                         }
                     } else {
+                        lblUsuarioLogeado.setText("Invitado");
                         Log.d("ID de Firebase", "El ID de Firebase es null");
                     }
                 }

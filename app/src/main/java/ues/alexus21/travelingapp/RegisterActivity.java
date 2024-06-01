@@ -147,7 +147,7 @@ public class RegisterActivity extends AppCompatActivity {
         String id = reference.push().getKey();
         password = EncryptPassword.encryptPassword(password);
         User user = new User(id, email, password);
-        localUserDAO.insertUser(new LocalUserModel(email, password, true, id));
+        localUserDAO.insertUser(new LocalUserModel(email, password, 1, id));
         reference.child("users").push().setValue(user)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Usuario registrado", Toast.LENGTH_SHORT).show();
