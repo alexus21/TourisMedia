@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="darkgrey">#373A40</color>
+    <color name="grey">#686D76</color>
+
+    <!-- PALETA DE COLORES-->
+    <color name="blue_rackley">#4D869C</color>
+    <color name="moonstone_blue">#7AB2B2</color>
+    <color name="sky_blue">#CDE8E5</color>
+    <color name="yellow_peach">#F6DCAC</color>
+
+    <color name="rackley">#BCF2F4</color>
+
+
+</resources>

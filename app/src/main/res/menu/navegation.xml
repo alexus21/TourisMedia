@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Menu bottom navegation-->
+    <item
+        android:id="@+id/navPrincipal"
+        android:title="Destinos"
+        android:icon="@drawable/icon_location"/>
+    <item
+        android:id="@+id/navFavoritos"
+        android:title="Favoritos"
+        android:icon="@drawable/icon_heart_relleno"/>
+
+</menu>
