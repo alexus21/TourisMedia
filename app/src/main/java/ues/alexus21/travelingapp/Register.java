@@ -83,6 +83,9 @@ public class Register extends AppCompatActivity {
                 return;
             }
 
+            // Deshabilitar el botón para evitar múltiples solicitudes
+            btnSignUp.setEnabled(false);
+
             DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("users");
             databaseRef.orderByChild("email").equalTo(email)
                     .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -91,6 +94,8 @@ public class Register extends AppCompatActivity {
                             if (snapshot.exists()) {
                                 // El correo electrónico ya existe
                                 Toast.makeText(Register.this, "El correo electrónico ya está registrado", Toast.LENGTH_SHORT).show();
+                                txtCorreoRegister.setError("El correo ya está registrado");
+                                btnSignUp.setEnabled(true); // Habilitar el botón si el correo ya está registrado
                             } else {
                                 registerUser(email, password);
                                 Intent listaDestinos = new Intent(Register.this, ListaDestinos.class);
