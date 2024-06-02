@@ -21,6 +21,7 @@ import java.util.Objects;
 import de.hdodenhof.circleimageview.CircleImageView;
 import ues.alexus21.travelingapp.firebasedatacollection.FirebaseDataCollection;
 import ues.alexus21.travelingapp.localstorage.ILocalUserDAO;
+import ues.alexus21.travelingapp.localstorage.LocalUserModel;
 
 public class ListaDestinosActivity extends AppCompatActivity {
     TextView lblUsuarioLogeado;
@@ -41,6 +42,16 @@ public class ListaDestinosActivity extends AppCompatActivity {
         imgUsuarioLogeado = findViewById(R.id.imgUsuarioLogeado);
 
         String userId = localUserDAO.getUserId();
+        System.out.println("User ID: " + userId);
+
+        // Imprimir todo lo de localUserDAO.getUser
+        for (LocalUserModel user : localUserDAO.getAll()) {
+            System.out.println("ID: " + user.getId());
+            System.out.println("Email: " + user.getEmail());
+            System.out.println("Password: " + user.getPassword());
+            System.out.println("Remote ID: " + user.getUser_remote_id());
+            System.out.println("Estado: " + user.getIsLogged());
+        }
 
         imgUsuarioLogeado.setOnClickListener(v -> {
             // Si el usuario hace clic en la imagen, se cierra la sesión
@@ -55,8 +66,13 @@ public class ListaDestinosActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     void setLoggedUserName(DatabaseReference databaseRef, ILocalUserDAO localUserDAO) {
 
-        String email = localUserDAO.checkIfExist();
-        System.out.println("Email: " + email);
+        String userId = localUserDAO.getUserId();
+        System.out.println("User ID: " + userId);
+        String email = localUserDAO.getEmailFromRemoteId(userId);
+        System.out.println("Este email obtuve: " + email);
+
+        /*String email = localUserDAO.checkIfExist();
+        System.out.println("Este email obtuve: " + email);*/
 
         // Leer el ID de Firebase almacenado en la base de datos
         FirebaseDataCollection.obtenerIdFirebase(email, firebaseId -> {

@@ -4,10 +4,15 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import java.util.List;
+
 @Dao
 public interface ILocalUserDAO {
     @Query("SELECT * FROM LocalUserModel WHERE email = :email AND password = :password")
     LocalUserModel getUser(String email, String password);
+
+    @Query("SELECT * FROM LocalUserModel")
+    List<LocalUserModel> getAll();
 
     // Obtener el ID
     @Query("SELECT user_remote_id FROM LocalUserModel WHERE isLogged = 1")
@@ -16,6 +21,10 @@ public interface ILocalUserDAO {
     // Obtener el ID
     @Query("SELECT user_remote_id FROM LocalUserModel WHERE email = :email")
     String checkIfExist(String email);
+
+    // Obtener el ID
+    @Query("SELECT email FROM LocalUserModel WHERE user_remote_id = :remoteId")
+    String getEmailFromRemoteId(String remoteId);
 
     // Obtener el ID
     @Query("SELECT email FROM LocalUserModel")
@@ -31,9 +40,9 @@ public interface ILocalUserDAO {
     @Query("DELETE FROM LocalUserModel WHERE user_remote_id = :user_remote_id")
     void delete(String user_remote_id);
 
-    @Query("UPDATE LocalUserModel SET email = :email, password = :password, user_remote_id =:user_remote_id, isLogged =:isLogged WHERE id = :id")
-    void updateUser(String email, String password, String user_remote_id, String isLogged, String id);
+    @Query("UPDATE LocalUserModel SET isLogged = '1' WHERE email = :email")
+    void updateUser(String email);
 
-    @Query("UPDATE LocalUserModel SET isLogged = 0 WHERE id = :id")
-    void logout(String id);
+    @Query("UPDATE LocalUserModel SET user_remote_id = '', isLogged = '0' WHERE user_remote_id = :user_remote_id")
+    void logout(String user_remote_id);
 }

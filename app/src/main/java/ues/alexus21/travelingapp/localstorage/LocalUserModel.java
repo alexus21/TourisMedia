@@ -59,4 +59,12 @@ public class LocalUserModel {
     public void setUser_remote_id(String user_remote_id) {
         this.user_remote_id = user_remote_id;
     }
+
+    public int getIsLogged() {
+        return isLogged;
+    }
+
+    public void setIsLogged(int isLogged) {
+        this.isLogged = isLogged;
+    }
 }

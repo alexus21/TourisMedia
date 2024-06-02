@@ -142,9 +142,9 @@ public class LoginActivity extends AppCompatActivity {
             Log.d("Manejo de Sesión", "Insertando usuario: correo: " + email + " clave: " + password + " estado: 1 id remoto: " + firebaseId);
             localUserDAO.insertUser(new LocalUserModel(email, password, 1, firebaseId));
         } else {
-            String localUserId = localUserDAO.getUserId(firebaseId);
-            Log.d("Manejo de Sesión", "Actualizando usuario: " + email + " clave: " + password + " estado: 1 id remoto: " + firebaseId);
-            localUserDAO.updateUser(email, password, firebaseId, "1", localUserId);
+//            String localUserId = localUserDAO.getUserId(firebaseId);
+            Log.d("Manejo de Sesión", "Actualizando estado de usuario: " + email);
+            localUserDAO.updateUser(email);
         }
 
         iniciarListaDestinosActivity();
