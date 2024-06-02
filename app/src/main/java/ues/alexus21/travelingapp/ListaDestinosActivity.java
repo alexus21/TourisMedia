@@ -17,6 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
+import ues.alexus21.travelingapp.firebasedatacollection.FirebaseDataCollection;
 import ues.alexus21.travelingapp.localstorage.ILocalUserDAO;
 
 public class ListaDestinosActivity extends AppCompatActivity {
@@ -35,49 +36,20 @@ public class ListaDestinosActivity extends AppCompatActivity {
         setLoggedUserName();
     }
 
+    @SuppressLint("SetTextI18n")
     void setLoggedUserName() {
         // Obtener referencia a la base de datos de Firebase
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users");
         localUserDAO = DatabaseSingleton.getDatabase(this).localUserDAO();
+        String email = localUserDAO.checkIfExist();
+        System.out.println("Email: " + email);
 
         // Leer el ID de Firebase almacenado en la base de datos
-        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                    String idFirebase = userSnapshot.child("id").getValue(String.class);
-                    if (idFirebase != null) {
-                        Log.d("ID de Firebase", idFirebase);
-
-                        // Obtener el ID local
-                        String idLocal = localUserDAO.getUserId();
-                        if (idLocal != null) {
-                            Log.d("ID Local", idLocal);
-
-                            String email = userSnapshot.child("email").getValue(String.class);
-                            // Remover todo lo que vaya desde @ (la @ incluida)
-                            String name = email.substring(0, email.indexOf('@'));
-
-                            System.out.println(name);
-
-                            // Comparar los IDs
-                            if (idFirebase.equals(idLocal)) {
-                                lblUsuarioLogeado.setText(name);
-                            } else {
-                                lblUsuarioLogeado.setText("Invitado");
-                            }
-                        }
-                    } else {
-                        lblUsuarioLogeado.setText("Invitado");
-                        Log.d("ID de Firebase", "El ID de Firebase es null");
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("DatabaseError", "Error al leer el ID de Firebase", databaseError.toException());
+        FirebaseDataCollection.obtenerIdFirebase(email, firebaseId -> {
+            if (firebaseId != null) {
+                lblUsuarioLogeado.setText(email.substring(0, email.indexOf("@")));
+            } else {
+                lblUsuarioLogeado.setText("Invitado");
             }
         });
     }
