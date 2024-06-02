@@ -33,4 +33,7 @@ public interface ILocalUserDAO {
 
     @Query("UPDATE LocalUserModel SET email = :email, password = :password, user_remote_id =:user_remote_id, isLogged =:isLogged WHERE id = :id")
     void updateUser(String email, String password, String user_remote_id, String isLogged, String id);
+
+    @Query("UPDATE LocalUserModel SET isLogged = 0 WHERE id = :id")
+    void logout(String id);
 }

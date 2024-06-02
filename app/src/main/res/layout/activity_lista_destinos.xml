@@ -44,7 +44,7 @@
 
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/btnUser"
+        android:id="@+id/imgUsuarioLogeado"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:foreground="@drawable/icon_user"
@@ -68,7 +68,7 @@
         android:text=""
         android:textColor="@color/white"
         android:textSize="17sp"
-        app:layout_constraintEnd_toStartOf="@+id/btnUser"
+        app:layout_constraintEnd_toStartOf="@+id/imgUsuarioLogeado"
         app:layout_constraintHorizontal_bias="0.738"
         app:layout_constraintStart_toEndOf="@+id/lblnameapp"
         app:layout_constraintTop_toTopOf="parent" />
