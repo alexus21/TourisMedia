@@ -21,6 +21,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import ues.alexus21.travelingapp.localstorage.ILocalUserDAO;
+import ues.alexus21.travelingapp.localstorage.LocalUserModel;
 import ues.alexus21.travelingapp.user.User;
 import ues.alexus21.travelingapp.validations.EncryptPassword;
 
@@ -82,11 +84,12 @@ public class LoginActivity extends AppCompatActivity {
                                 // El email existe, verificar la contraseña
                                 for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                                     User user = childSnapshot.getValue(User.class);
+                                    String uuid = childSnapshot.getKey();
                                     if (user != null) {
                                         String hashedPassword = EncryptPassword.encryptPassword(password);
                                         if (user.getPassword().equals(hashedPassword)) {
                                             // Las credenciales son correctas, iniciar sesión
-                                            iniciarSesion();
+                                            iniciarSesion(email, password, uuid);
                                             return;
                                         }
                                     }
@@ -108,7 +111,10 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void iniciarSesion() {
+    private void iniciarSesion(String email, String password, String id) {
+
+        ILocalUserDAO localUserDAO = DatabaseSingleton.getDatabase(this).localUserDAO();
+        localUserDAO.insertUser(new LocalUserModel(email, password, 1, id));
         Intent intent = new Intent(LoginActivity.this, ListaDestinosActivity.class);
         startActivity(intent);
         finish();
