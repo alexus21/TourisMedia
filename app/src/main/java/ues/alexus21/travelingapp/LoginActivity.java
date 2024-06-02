@@ -88,40 +88,6 @@ public class LoginActivity extends AppCompatActivity {
                     mostrarMensajeError("Correo o contraseñá incorrectos");
                 }
             });
-
-            // Comparar el email y la contraseña con los datos almacenados en firebase
-            /*DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users");
-            databaseRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.exists()) {
-                                // El email existe, verificar la contraseña
-                                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-                                    User user = childSnapshot.getValue(User.class);
-                                    String uuid = childSnapshot.getKey();
-                                    if (user != null) {
-                                        String hashedPassword = EncryptPassword.encryptPassword(password);
-                                        if (user.getPassword().equals(hashedPassword)) {
-                                            // Las credenciales son correctas, iniciar sesión
-                                            iniciarSesion(email, password, uuid);
-                                            return;
-                                        }
-                                    }
-                                }
-                                // Las credenciales no son correctas
-                                mostrarMensajeError("Correo o contraseña incorrectos");
-                            } else {
-                                // El email no existe
-                                mostrarMensajeError("Correo o contraseña incorrectos");
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            // Manejo de errores
-                            mostrarMensajeError("Error al verificar las credenciales");
-                        }
-                    });*/
         });
     }
 

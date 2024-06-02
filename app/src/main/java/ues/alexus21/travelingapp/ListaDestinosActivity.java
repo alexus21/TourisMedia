@@ -42,7 +42,6 @@ public class ListaDestinosActivity extends AppCompatActivity {
         imgUsuarioLogeado = findViewById(R.id.imgUsuarioLogeado);
 
         String userId = localUserDAO.getUserId();
-        System.out.println("User ID: " + userId);
 
         // Imprimir todo lo de localUserDAO.getUser
         for (LocalUserModel user : localUserDAO.getAll()) {

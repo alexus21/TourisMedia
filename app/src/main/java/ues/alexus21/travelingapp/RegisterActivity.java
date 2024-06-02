@@ -127,40 +127,6 @@ public class RegisterActivity extends AppCompatActivity {
                     startActivity(listaDestinos);
                 }
             });
-
-            /*if (FirebaseDataCollection.checkEmail(email)) {
-//                Toast.makeText(RegisterActivity.this, "El correo electrónico ya está registrado", Toast.LENGTH_SHORT).show();
-                txtCorreoRegister.setError("Este correo ya está en uso. Prueba uno diferente.");
-                btnSignUp.setEnabled(true); // Habilitar el botón si el correo ya está registrado
-            } else {
-                registerUser(email, password);
-                Intent listaDestinos = new Intent(RegisterActivity.this, ListaDestinosActivity.class);
-                startActivity(listaDestinos);
-            }*/
-
-            /*DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("users");
-            databaseRef.orderByChild("email").equalTo(email)
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.exists()) {
-                                // El correo electrónico ya existe
-                                Toast.makeText(RegisterActivity.this, "El correo electrónico ya está registrado", Toast.LENGTH_SHORT).show();
-                                txtCorreoRegister.setError("El correo ya está registrado");
-                                btnSignUp.setEnabled(true); // Habilitar el botón si el correo ya está registrado
-                            } else {
-                                registerUser(email, password);
-                                Intent listaDestinos = new Intent(RegisterActivity.this, ListaDestinosActivity.class);
-                                startActivity(listaDestinos);
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            // Manejo de errores
-                            Toast.makeText(RegisterActivity.this, "Error al verificar el correo electrónico", Toast.LENGTH_SHORT).show();
-                        }
-                    });*/
         });
     }
 
