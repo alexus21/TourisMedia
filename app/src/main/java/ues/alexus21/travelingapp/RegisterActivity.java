@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import ues.alexus21.travelingapp.firebasedatacollection.FirebaseDataCollection;
 import ues.alexus21.travelingapp.localstorage.ILocalUserDAO;
 import ues.alexus21.travelingapp.localstorage.LocalUserModel;
 import ues.alexus21.travelingapp.user.User;
@@ -77,20 +78,20 @@ public class RegisterActivity extends AppCompatActivity {
             String retypePassword = txtRetypePasswordRegister.getText().toString();
 
             if (!UserRegistrationValidation.validateEmailStructure(email)) {
-                Toast.makeText(this, "El correo debe ser de un dominio permitido", Toast.LENGTH_SHORT).show();
-                txtCorreoRegister.setError("");
+//                Toast.makeText(this, "El correo debe ser de un dominio permitido", Toast.LENGTH_SHORT).show();
+                txtCorreoRegister.setError("El correo debe ser de un dominio permitido");
                 return;
             }
 
             if (UserRegistrationValidation.isEmailEmpty(email)) {
-                Toast.makeText(this, "El correo no puede estar vacío", Toast.LENGTH_SHORT).show();
-                txtCorreoRegister.setError("");
+//                Toast.makeText(this, "El correo no puede estar vacío", Toast.LENGTH_SHORT).show();
+                txtCorreoRegister.setError("El correo no puede estar vacío");
                 return;
             }
 
             if (!UserRegistrationValidation.isEmailValid(email)) {
-                Toast.makeText(this, "El correo debe tener un @ y un .", Toast.LENGTH_SHORT).show();
-                txtCorreoRegister.setError("");
+//                Toast.makeText(this, "El correo debe tener un @ y un .", Toast.LENGTH_SHORT).show();
+                txtCorreoRegister.setError("El correo debe tener un @ y un .");
                 return;
             }
 
@@ -116,7 +117,28 @@ public class RegisterActivity extends AppCompatActivity {
             // Deshabilitar el botón para evitar múltiples solicitudes
             btnSignUp.setEnabled(false);
 
-            DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("users");
+            FirebaseDataCollection.checkEmail(email, exists -> {
+                if (exists) {
+                    txtCorreoRegister.setError("Este correo ya está en uso. Prueba uno diferente.");
+                    btnSignUp.setEnabled(true); // Habilitar el botón si el correo ya está registrado
+                } else {
+                    registerUser(email, password);
+                    Intent listaDestinos = new Intent(RegisterActivity.this, ListaDestinosActivity.class);
+                    startActivity(listaDestinos);
+                }
+            });
+
+            /*if (FirebaseDataCollection.checkEmail(email)) {
+//                Toast.makeText(RegisterActivity.this, "El correo electrónico ya está registrado", Toast.LENGTH_SHORT).show();
+                txtCorreoRegister.setError("Este correo ya está en uso. Prueba uno diferente.");
+                btnSignUp.setEnabled(true); // Habilitar el botón si el correo ya está registrado
+            } else {
+                registerUser(email, password);
+                Intent listaDestinos = new Intent(RegisterActivity.this, ListaDestinosActivity.class);
+                startActivity(listaDestinos);
+            }*/
+
+            /*DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("users");
             databaseRef.orderByChild("email").equalTo(email)
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -138,16 +160,20 @@ public class RegisterActivity extends AppCompatActivity {
                             // Manejo de errores
                             Toast.makeText(RegisterActivity.this, "Error al verificar el correo electrónico", Toast.LENGTH_SHORT).show();
                         }
-                    });
+                    });*/
         });
     }
 
     void registerUser(String email, String password) {
         reference = FirebaseDatabase.getInstance().getReference();
+
         String id = reference.push().getKey();
+
         password = EncryptPassword.encryptPassword(password);
+
         User user = new User(id, email, password);
-        localUserDAO.insertUser(new LocalUserModel(email, password, 1, id));
+
+        // Insertar a Firebase:
         reference.child("users").push().setValue(user)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Usuario registrado", Toast.LENGTH_SHORT).show();
@@ -155,5 +181,8 @@ public class RegisterActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
                 });
+
+        // Guardar localmente:
+        localUserDAO.insertUser(new LocalUserModel(email, password, 1, id));
     }
 }
