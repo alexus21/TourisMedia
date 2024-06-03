@@ -115,7 +115,7 @@
         app:layout_constraintTop_toBottomOf="@+id/ubicacion_text_input_layout">
 
         <Button
-            android:id="@+id/btnUpdateMyPassword"
+            android:id="@+id/btnSetRating"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

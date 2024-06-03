@@ -2,9 +2,175 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fondo_mar"
     tools:context=".activities.PlaceReviewActivity">
+
+    <!-- Agregar destinos turisticos -->
+
+    <ImageView
+        android:id="@+id/imgAtras"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/icon_back"
+        android:backgroundTint="@color/blue_rackley"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.043"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
+
+
+    <Button
+        android:id="@+id/btnSetRating"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/bg_boton_agregardestino"
+        android:fontFamily="@font/comfortaa_bold"
+        android:text="Añadir calificación"
+        android:textColor="@color/blue_rackley"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="397dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="32dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/imgDestino"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="7dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="Nombre del destino: "
+            android:textSize="18sp"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="Descripción: "
+            android:textSize="18sp"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ubicación: "
+            android:textSize="18sp"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgDestino"
+        android:layout_width="363dp"
+        android:layout_height="207dp"
+        android:layout_marginTop="64dp"
+        android:background="@android:color/transparent"
+        android:foreground="@drawable/icon_galeria_color"
+        android:foregroundGravity="fill"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="405dp"
+        android:layout_height="67dp"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="4dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nombre_text_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:hint="Agregar comentarios: "
+            android:textColor="@color/blue_rackley"
+            android:textColorHint="@color/moonstone_blue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.49"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgDestino"
+            app:layout_constraintVertical_bias="0.115">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/comfortaa_regular"
+                android:inputType="textPassword"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:passwordToggleEnabled="true" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        tools:layout_editor_absoluteX="0dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"></LinearLayout>
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="149dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=" Calificación:"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="false"
+                android:numStars="5"
+                android:stepSize="0.1" />
+        </LinearLayout>
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,7 +34,7 @@ public class UserProfileActivity extends AppCompatActivity {
         localUserDAO = DatabaseSingleton.getDatabase(this).localUserDAO();
 
         imgAtras = findViewById(R.id.imgAtras);
-        btnUpdateMyPassword = findViewById(R.id.btnUpdateMyPassword);
+        btnUpdateMyPassword = findViewById(R.id.btnSetRating);
         btnEndSession = findViewById(R.id.btnEndSession);
         btnDeleteMyAccount = findViewById(R.id.btnDeleteMyAccount);
         txtEmail = findViewById(R.id.txtEmail);

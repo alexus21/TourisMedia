@@ -2,6 +2,7 @@ package ues.alexus21.travelingapp.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import ues.alexus21.travelingapp.R;
+import ues.alexus21.travelingapp.activities.PlaceReviewActivity;
 import ues.alexus21.travelingapp.models.ListaDestinos;
 
 public class ListaDestinosAdapter extends BaseAdapter {
@@ -51,6 +53,12 @@ public class ListaDestinosAdapter extends BaseAdapter {
         Glide.with(context)
                 .load(listaDestinos.get(position).getImg_url())
                 .into(imageView);
+
+        imageView.setOnClickListener(v -> {
+            Intent placeReviewActivity = new Intent(context, PlaceReviewActivity.class);
+            placeReviewActivity.putExtra("imageUrl", listaDestinos.get(position).getImg_url());
+            context.startActivity(placeReviewActivity);
+        });
 
         return convertView;
     }
