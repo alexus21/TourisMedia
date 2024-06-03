@@ -26,6 +26,7 @@ import ues.alexus21.travelingapp.localstorage.LocalUserModel;
 import ues.alexus21.travelingapp.user.User;
 import ues.alexus21.travelingapp.validations.EncryptPassword;
 import ues.alexus21.travelingapp.validations.UserRegistrationValidation;
+import ues.alexus21.travelingapp.validations.UserValidator;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -54,44 +55,14 @@ public class RegisterActivity extends AppCompatActivity {
         createSpannableString("¿Ya tienes cuenta? ¡Inicia sesión!", lbl_register_aActivityLogin, LoginActivity.class);
 
         btnSignUp.setOnClickListener(v -> {
-            String email = txtCorreoRegister.getText().toString();
-            String password = txtPasswordRegister.getText().toString();
-            String retypePassword = txtRetypePasswordRegister.getText().toString();
+            String email = txtCorreoRegister.getText().toString().trim();
+            String password = txtPasswordRegister.getText().toString().trim();
+            String retypePassword = txtRetypePasswordRegister.getText().toString().trim();
 
-            if (!UserRegistrationValidation.validateEmailStructure(email)) {
-//                Toast.makeText(this, "El correo debe ser de un dominio permitido", Toast.LENGTH_SHORT).show();
-                txtCorreoRegister.setError("El correo debe ser de un dominio permitido");
-                return;
-            }
+            boolean isValid = UserValidator.validateRegistration(email, password, retypePassword,
+                    txtCorreoRegister, txtPasswordRegister, txtRetypePasswordRegister);
 
-            if (UserRegistrationValidation.isEmailEmpty(email)) {
-//                Toast.makeText(this, "El correo no puede estar vacío", Toast.LENGTH_SHORT).show();
-                txtCorreoRegister.setError("El correo no puede estar vacío");
-                return;
-            }
-
-            if (!UserRegistrationValidation.isEmailValid(email)) {
-//                Toast.makeText(this, "El correo debe tener un @ y un .", Toast.LENGTH_SHORT).show();
-                txtCorreoRegister.setError("El correo debe tener un @ y un .");
-                return;
-            }
-
-            if (UserRegistrationValidation.isPasswordEmpty(password)) {
-                Toast.makeText(this, "La contraseña no puede estar vacía", Toast.LENGTH_SHORT).show();
-                txtPasswordRegister.setError("");
-                return;
-            }
-
-            if (!UserRegistrationValidation.isPasswordComplex(password)) {
-                Toast.makeText(this, "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, " +
-                        "un número y un caracter especial", Toast.LENGTH_SHORT).show();
-                txtPasswordRegister.setError("");
-                return;
-            }
-
-            if (!UserRegistrationValidation.validateRetypePassword(password, retypePassword)) {
-                Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
-                txtRetypePasswordRegister.setError("");
+            if (!isValid) {
                 return;
             }
 

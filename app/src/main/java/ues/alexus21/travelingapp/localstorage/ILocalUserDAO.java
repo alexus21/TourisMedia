@@ -27,8 +27,8 @@ public interface ILocalUserDAO {
     String getEmailFromRemoteId(String remoteId);
 
     // Obtener el ID
-    @Query("SELECT email FROM LocalUserModel")
-    String checkIfExist();
+    @Query("SELECT email FROM LocalUserModel WHERE isLogged = 1")
+    String loggedEmail();
 
     // Obtener el ID
     @Query("SELECT user_remote_id FROM LocalUserModel WHERE user_remote_id = :user_remote_id")

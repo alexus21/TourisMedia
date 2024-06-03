@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import ues.alexus21.travelingapp.firebasedatacollection.FirebaseDataCollection;
 import ues.alexus21.travelingapp.localstorage.ILocalUserDAO;
 import ues.alexus21.travelingapp.localstorage.LocalUserModel;
+import ues.alexus21.travelingapp.validations.UserValidator;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -54,11 +55,10 @@ public class LoginActivity extends AppCompatActivity {
             String email = txtUsuarioLogin.getText().toString().trim();
             String password = txtConstrasenaLogin.getText().toString().trim();
 
-            // Validar que los campos no estén vacíos
-            if (email.isEmpty() || password.isEmpty()) {
-                mostrarMensajeError("Por favor, llene todos los campos");
-                txtUsuarioLogin.setError("");
-                txtConstrasenaLogin.setError("");
+            boolean isValid = UserValidator.validateRegistration(email, password,
+                    txtUsuarioLogin, txtConstrasenaLogin);
+
+            if (!isValid) {
                 return;
             }
 
@@ -68,11 +68,11 @@ public class LoginActivity extends AppCompatActivity {
                         if (success) {
                             iniciarSesion(email, password);
                         } else {
-                            mostrarMensajeError("Correo o contraseñá incorrectos");
+                            mostrarMensajeError("Correo o contraseña incorrectos");
                         }
                     });
                 } else {
-                    mostrarMensajeError("Correo o contraseñá incorrectos");
+                    mostrarMensajeError("Correo o contraseña incorrectos");
                 }
             });
         });

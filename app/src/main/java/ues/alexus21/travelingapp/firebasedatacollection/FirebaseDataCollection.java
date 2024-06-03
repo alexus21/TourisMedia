@@ -32,6 +32,13 @@ public class FirebaseDataCollection extends AppCompatActivity {
 
     public interface UpdatePasswordCallback {
         void onSuccess();
+
+        void onFailure(Exception e);
+    }
+
+    public interface DeleteUserCallback {
+        void onSuccess();
+
         void onFailure(Exception e);
     }
 
@@ -115,7 +122,32 @@ public class FirebaseDataCollection extends AppCompatActivity {
                             DatabaseReference userRef = databaseRef.child(userId);
                             userRef.child("password").setValue(hashedPassword)
                                     .addOnSuccessListener(aVoid -> callback.onSuccess())
-                                    .addOnFailureListener(e -> callback.onFailure(e));
+                                    .addOnFailureListener(callback::onFailure);
+                            return;
+                        }
+                    }
+                } else {
+                    callback.onFailure(new Exception("Usuario no encontrado"));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callback.onFailure(error.toException());
+            }
+        });
+    }
+
+    public static void deleteUserById(String userId, DeleteUserCallback callback) {
+        databaseRef.orderByChild("id").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                        String userKey = childSnapshot.getKey();
+                        if (userKey != null) {
+                            databaseRef.child(userKey).removeValue().addOnSuccessListener(aVoid -> callback.onSuccess())
+                                    .addOnFailureListener(callback::onFailure);
                             return;
                         }
                     }

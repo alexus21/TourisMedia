@@ -131,6 +131,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/comfortaa_regular"
                         android:inputType="textPassword"
+                        android:textColor="@color/black"
                         android:textSize="18sp"
                         app:passwordToggleEnabled="true" />
 
