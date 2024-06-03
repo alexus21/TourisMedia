@@ -1,8 +1,5 @@
-package ues.alexus21.travelingapp;
+package ues.alexus21.travelingapp.activities;
 
-import static ues.alexus21.travelingapp.firebasedatacollection.FirebaseDataCollection.updateUserPassword;
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -14,6 +11,8 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import ues.alexus21.travelingapp.DatabaseSingleton;
+import ues.alexus21.travelingapp.R;
 import ues.alexus21.travelingapp.firebasedatacollection.FirebaseDataCollection;
 import ues.alexus21.travelingapp.localstorage.ILocalUserDAO;
 import ues.alexus21.travelingapp.validations.EncryptPassword;

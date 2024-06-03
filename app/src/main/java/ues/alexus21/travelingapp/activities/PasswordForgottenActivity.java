@@ -1,4 +1,4 @@
-package ues.alexus21.travelingapp;
+package ues.alexus21.travelingapp.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,14 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
+import ues.alexus21.travelingapp.DatabaseSingleton;
+import ues.alexus21.travelingapp.R;
 import ues.alexus21.travelingapp.firebasedatacollection.FirebaseDataCollection;
 import ues.alexus21.travelingapp.localstorage.ILocalUserDAO;
-import ues.alexus21.travelingapp.localstorage.LocalUserModel;
-import ues.alexus21.travelingapp.user.User;
 import ues.alexus21.travelingapp.validations.EncryptPassword;
-import ues.alexus21.travelingapp.validations.UserRegistrationValidation;
 import ues.alexus21.travelingapp.validations.UserValidator;
 
 public class PasswordForgottenActivity extends AppCompatActivity {

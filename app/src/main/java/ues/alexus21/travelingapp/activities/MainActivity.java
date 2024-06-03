@@ -1,4 +1,4 @@
-package ues.alexus21.travelingapp;
+package ues.alexus21.travelingapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import ues.alexus21.travelingapp.DatabaseSingleton;
+import ues.alexus21.travelingapp.R;
 import ues.alexus21.travelingapp.localstorage.ILocalUserDAO;
 
 public class MainActivity extends AppCompatActivity {

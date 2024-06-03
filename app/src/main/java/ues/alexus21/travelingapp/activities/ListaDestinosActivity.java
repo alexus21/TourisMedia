@@ -1,4 +1,4 @@
-package ues.alexus21.travelingapp;
+package ues.alexus21.travelingapp.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,8 +15,6 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,9 +30,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import ues.alexus21.travelingapp.DatabaseSingleton;
+import ues.alexus21.travelingapp.R;
 import ues.alexus21.travelingapp.adapters.ListaDestinosAdapter;
 import ues.alexus21.travelingapp.firebasedatacollection.FirebaseDataCollection;
 import ues.alexus21.travelingapp.localstorage.ILocalUserDAO;
