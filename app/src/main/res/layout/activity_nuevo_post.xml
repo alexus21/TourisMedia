@@ -120,7 +120,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btn_añadirDestino"
+        android:id="@+id/btnUpdateMyPassword"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

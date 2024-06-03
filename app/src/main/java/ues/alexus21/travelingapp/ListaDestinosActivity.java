@@ -53,9 +53,9 @@ public class ListaDestinosActivity extends AppCompatActivity {
         }
 
         imgUsuarioLogeado.setOnClickListener(v -> {
-            // Si el usuario hace clic en la imagen, se cierra la sesión
-            localUserDAO.logout(userId);
-            redirectToLogin();
+            Intent userProfileIntent = new Intent(ListaDestinosActivity.this, UserProfile.class);
+            startActivity(userProfileIntent);
+            finish();
         });
 
         // Llama a setLoggedUserName para establecer el nombre de usuario
@@ -81,12 +81,5 @@ public class ListaDestinosActivity extends AppCompatActivity {
                 lblUsuarioLogeado.setText("Invitado");
             }
         });
-    }
-
-    void redirectToLogin(){
-        // Redirigir al usuario a la pantalla de inicio de sesión
-        Intent loginIntent = new Intent(ListaDestinosActivity.this, LoginActivity.class);
-        startActivity(loginIntent);
-        finish();
     }
 }

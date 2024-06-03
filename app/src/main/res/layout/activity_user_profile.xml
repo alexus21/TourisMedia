@@ -23,23 +23,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgDestino"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:background="@android:color/transparent"
-        android:foreground="@drawable/icon_galeria_color"
-        android:foregroundGravity="fill"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.069" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/nombre_text_input_layout"
         android:layout_width="360dp"
@@ -51,7 +34,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgDestino"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.115">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -71,7 +54,7 @@
         android:id="@+id/descripcion_text_input_layout"
         android:layout_width="360dp"
         android:layout_height="wrap_content"
-        android:hint="Descripción del destino turistico"
+        android:hint="Contraseña"
         android:textColor="@color/blue_rackley"
         android:textColorHint="@color/moonstone_blue"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -79,7 +62,7 @@
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nombre_text_input_layout"
-        app:layout_constraintVertical_bias="0.055">
+        app:layout_constraintVertical_bias="0.116">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtDescripcionDestino"
@@ -97,15 +80,14 @@
         android:id="@+id/ubicacion_text_input_layout"
         android:layout_width="360dp"
         android:layout_height="wrap_content"
-        android:hint="Ubicación del destino"
+        android:layout_marginTop="64dp"
+        android:hint="Repita su contraseña"
         android:textColor="@color/blue_rackley"
         android:textColorHint="@color/moonstone_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/descripcion_text_input_layout"
-        app:layout_constraintVertical_bias="0.085">
+        app:layout_constraintTop_toBottomOf="@+id/descripcion_text_input_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtUbicacion"
@@ -120,22 +102,53 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btn_añadirDestino"
+        android:id="@+id/btnUpdateMyPassword"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="48dp"
         android:background="@drawable/bg_boton_agregardestino"
         android:fontFamily="@font/comfortaa_bold"
-        android:text="Añadir"
+        android:text="Actualizar Contraseña"
         android:textColor="@color/blue_rackley"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnEndSession"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ubicacion_text_input_layout"
-        app:layout_constraintVertical_bias="0.129" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/btnEndSession"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/bg_boton_agregardestino"
+        android:fontFamily="@font/comfortaa_bold"
+        android:text="Cerrar sesión"
+        android:textColor="@color/blue_rackley"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnDeleteMyAccount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btnDeleteMyAccount"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="76dp"
+        android:background="@drawable/bg_boton_agregardestino"
+        android:fontFamily="@font/comfortaa_bold"
+        android:text="Eliminar mi cuenta"
+        android:textColor="@color/blue_rackley"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
