@@ -56,19 +56,19 @@ public class PasswordForgottenActivity extends AppCompatActivity {
 
             if (!UserRegistrationValidation.validateEmailStructure(email)) {
                 Toast.makeText(this, "El correo debe ser de un dominio permitido", Toast.LENGTH_SHORT).show();
-                txtCorreoRecover.setError("");
+//                txtCorreoRecover.setError("El correo debe ser de un dominio permitido");
                 return;
             }
 
             if (UserRegistrationValidation.isEmailEmpty(email)) {
                 Toast.makeText(this, "El correo no puede estar vacío", Toast.LENGTH_SHORT).show();
-                txtCorreoRecover.setError("");
+//                txtCorreoRecover.setError("El correo no puede estar vacío");
                 return;
             }
 
             if (!UserRegistrationValidation.isEmailValid(email)) {
                 Toast.makeText(this, "El correo debe tener un @ y un .", Toast.LENGTH_SHORT).show();
-                txtCorreoRecover.setError("");
+//                txtCorreoRecover.setError("El correo debe tener un @ y un .");
                 return;
             }
 
@@ -97,8 +97,7 @@ public class PasswordForgottenActivity extends AppCompatActivity {
             FirebaseDataCollection.checkEmail(email, exists -> {
                 if (exists) {
                     updateUserPassword(email, password);
-                    Intent listaDestinos = new Intent(PasswordForgottenActivity.this, ListaDestinosActivity.class);
-                    startActivity(listaDestinos);
+                    startActivity(new Intent(PasswordForgottenActivity.this, LoginActivity.class));
                     finish();
                 } else {
                     txtCorreoRecover.setError("El correo proporcionado no se ha encontrado");
