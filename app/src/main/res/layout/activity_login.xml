@@ -45,7 +45,7 @@
         android:backgroundTint="@color/darkgrey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
@@ -107,10 +107,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:text=" CONTRASEÑA"
                     android:fontFamily="@font/comfortaa_bold"
-                    android:textColor="@color/darkgrey"
                     android:inputType="text"
+                    android:text=" CONTRASEÑA"
+                    android:textColor="@color/darkgrey"
                     android:textSize="17sp" />
 
 
@@ -118,19 +118,19 @@
                     android:id="@+id/password_text_input_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="Contraseña"
                     android:textColor="@color/black"
                     android:textColorHint="@color/grey"
-                    android:hint="Contraseña"
+                    app:boxStrokeColor="@color/black"
                     app:passwordToggleEnabled="true"
-                    app:passwordToggleTint="@color/blue_rackley"
-                    app:boxStrokeColor="@color/black">
+                    app:passwordToggleTint="@color/blue_rackley">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txtConstrasenaLogin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPassword"
                         android:fontFamily="@font/comfortaa_regular"
+                        android:inputType="textPassword"
                         android:textSize="18sp"
                         app:passwordToggleEnabled="true" />
 
@@ -146,12 +146,12 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/comfortaa_bold"
                     android:background="@drawable/bg_boton2"
                     android:backgroundTint="@color/yellow_peach"
+                    android:fontFamily="@font/comfortaa_bold"
                     android:text="Ingresar"
-                    android:textSize="16sp"
-                    android:textColor="@color/darkgrey"/>
+                    android:textColor="@color/darkgrey"
+                    android:textSize="16sp" />
 
                 <Space
                     android:layout_width="match_parent"
@@ -175,8 +175,29 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardlogin" />
+            app:layout_constraintTop_toBottomOf="@+id/cardlogin"
+            app:layout_constraintVertical_bias="0.211" />
+
+        <TextView
+            android:id="@+id/lbl_password_forgotten"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:fontFamily="@font/comfortaa_regular"
+            android:text="¿Olvidaste tu contraseña?"
+            android:textAlignment="center"
+            android:textColor="@color/sky_blue"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_login_aActivitySignup"
+            app:layout_constraintVertical_bias="0.394" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import ues.alexus21.travelingapp.firebasedatacollection.FirebaseDataCollection;
 import ues.alexus21.travelingapp.localstorage.ILocalUserDAO;
@@ -27,65 +26,62 @@ import ues.alexus21.travelingapp.user.User;
 import ues.alexus21.travelingapp.validations.EncryptPassword;
 import ues.alexus21.travelingapp.validations.UserRegistrationValidation;
 
-public class RegisterActivity extends AppCompatActivity {
+public class PasswordForgottenActivity extends AppCompatActivity {
 
-    public DatabaseReference reference;
-    private FirebaseFirestore db;
-    public EditText txtCorreoRegister, txtPasswordRegister, txtRetypePasswordRegister;
-    public Button btnSignUp;
-
+    EditText txtCorreoRecover, txtPasswordRecover, txtRetypePasswordRegister;
+    Button btnRecoverPassword;
+    TextView lbl_cancel_action;
     SpannableString spannableString;
-    TextView lbl_register_aActivityLogin;
+    public DatabaseReference reference;
     public ILocalUserDAO localUserDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_password_forgotten);
 
-        txtCorreoRegister = findViewById(R.id.txtCorreoRecover);
-        txtPasswordRegister = findViewById(R.id.txtPasswordRecover);
+        txtCorreoRecover = findViewById(R.id.txtCorreoRecover);
+        txtPasswordRecover = findViewById(R.id.txtPasswordRecover);
         txtRetypePasswordRegister = findViewById(R.id.txtRetypePasswordRegister);
-        btnSignUp = findViewById(R.id.btnRecoverPassword);
-        lbl_register_aActivityLogin = findViewById(R.id.lbl_register_aActivityLogin);
-        localUserDAO = DatabaseSingleton.getDatabase(this).localUserDAO();
+        btnRecoverPassword = findViewById(R.id.btnRecoverPassword);
+        lbl_cancel_action = findViewById(R.id.lbl_cancel_action);
 
-        createSpannableString("¿Ya tienes cuenta? ¡Inicia sesión!", lbl_register_aActivityLogin, LoginActivity.class);
+        createSpannableString("Cancelar", lbl_cancel_action, LoginActivity.class);
 
-        btnSignUp.setOnClickListener(v -> {
-            String email = txtCorreoRegister.getText().toString();
-            String password = txtPasswordRegister.getText().toString();
+        btnRecoverPassword.setOnClickListener(v -> {
+            String email = txtCorreoRecover.getText().toString();
+            String password = txtPasswordRecover.getText().toString();
             String retypePassword = txtRetypePasswordRegister.getText().toString();
 
             if (!UserRegistrationValidation.validateEmailStructure(email)) {
-//                Toast.makeText(this, "El correo debe ser de un dominio permitido", Toast.LENGTH_SHORT).show();
-                txtCorreoRegister.setError("El correo debe ser de un dominio permitido");
+                Toast.makeText(this, "El correo debe ser de un dominio permitido", Toast.LENGTH_SHORT).show();
+                txtCorreoRecover.setError("");
                 return;
             }
 
             if (UserRegistrationValidation.isEmailEmpty(email)) {
-//                Toast.makeText(this, "El correo no puede estar vacío", Toast.LENGTH_SHORT).show();
-                txtCorreoRegister.setError("El correo no puede estar vacío");
+                Toast.makeText(this, "El correo no puede estar vacío", Toast.LENGTH_SHORT).show();
+                txtCorreoRecover.setError("");
                 return;
             }
 
             if (!UserRegistrationValidation.isEmailValid(email)) {
-//                Toast.makeText(this, "El correo debe tener un @ y un .", Toast.LENGTH_SHORT).show();
-                txtCorreoRegister.setError("El correo debe tener un @ y un .");
+                Toast.makeText(this, "El correo debe tener un @ y un .", Toast.LENGTH_SHORT).show();
+                txtCorreoRecover.setError("");
                 return;
             }
 
             if (UserRegistrationValidation.isPasswordEmpty(password)) {
                 Toast.makeText(this, "La contraseña no puede estar vacía", Toast.LENGTH_SHORT).show();
-                txtPasswordRegister.setError("");
+                txtPasswordRecover.setError("");
                 return;
             }
 
             if (!UserRegistrationValidation.isPasswordComplex(password)) {
                 Toast.makeText(this, "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, " +
                         "un número y un caracter especial", Toast.LENGTH_SHORT).show();
-                txtPasswordRegister.setError("");
+                txtPasswordRecover.setError("");
                 return;
             }
 
@@ -96,42 +92,41 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             // Deshabilitar el botón para evitar múltiples solicitudes
-            btnSignUp.setEnabled(false);
+            btnRecoverPassword.setEnabled(false);
 
             FirebaseDataCollection.checkEmail(email, exists -> {
                 if (exists) {
-                    txtCorreoRegister.setError("Este correo ya está en uso. Prueba uno diferente.");
-                    btnSignUp.setEnabled(true); // Habilitar el botón si el correo ya está registrado
-                } else {
-                    registerUser(email, password);
-                    Intent listaDestinos = new Intent(RegisterActivity.this, ListaDestinosActivity.class);
+                    updateUserPassword(email, password);
+                    Intent listaDestinos = new Intent(PasswordForgottenActivity.this, ListaDestinosActivity.class);
                     startActivity(listaDestinos);
+                    finish();
+                } else {
+                    txtCorreoRecover.setError("El correo proporcionado no se ha encontrado");
+                    btnRecoverPassword.setEnabled(true);
                 }
             });
         });
     }
 
-    void registerUser(String email, String password) {
-        reference = FirebaseDatabase.getInstance().getReference();
+    void updateUserPassword(String email, String password) {
+        localUserDAO = DatabaseSingleton.getDatabase(this).localUserDAO();
 
-        String id = reference.push().getKey();
+        FirebaseDataCollection.updateUserPassword(email, password, new FirebaseDataCollection.UpdatePasswordCallback() {
+            @Override
+            public void onSuccess() {
+                localUserDAO.updateUserPassword(email, EncryptPassword.encryptPassword(password));
+                Toast.makeText(PasswordForgottenActivity.this, "Contraseña actualizada exitosamente", Toast.LENGTH_SHORT).show();
+            }
 
-        password = EncryptPassword.encryptPassword(password);
+            @Override
+            public void onFailure(Exception e) {
+                Toast.makeText(PasswordForgottenActivity.this, "Error al actualizar la contraseña: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
-        User user = new User(id, email, password);
-
-        // Insertar a Firebase:
-        reference.child("users").push().setValue(user)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Usuario registrado", Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
-                });
-
-        // Guardar localmente:
-        localUserDAO.insertUser(new LocalUserModel(email, password, 1, id));
+        localUserDAO.updateUserPassword(email, EncryptPassword.encryptPassword(password));
     }
+
 
     void createSpannableString(String text, TextView item, Class<? extends Activity> targetActivity) {
         spannableString = new SpannableString(text);
@@ -142,7 +137,7 @@ public class RegisterActivity extends AppCompatActivity {
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
-                Intent registerIntent = new Intent(RegisterActivity.this, targetActivity);
+                Intent registerIntent = new Intent(PasswordForgottenActivity.this, targetActivity);
                 startActivity(registerIntent);
                 finish();
             }

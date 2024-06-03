@@ -30,6 +30,11 @@ public class FirebaseDataCollection extends AppCompatActivity {
         void onCallback(String firebaseId);
     }
 
+    public interface UpdatePasswordCallback {
+        void onSuccess();
+        void onFailure(Exception e);
+    }
+
     public static void checkEmail(String email, CheckEmailCallback callback) {
         databaseRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -92,6 +97,36 @@ public class FirebaseDataCollection extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("DatabaseError", "Error al leer el ID de Firebase", databaseError.toException());
                 callback.onCallback(null);
+            }
+        });
+    }
+
+    public static void updateUserPassword(String email, String password, UpdatePasswordCallback callback) {
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users");
+        String hashedPassword = EncryptPassword.encryptPassword(password);
+
+        databaseRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                        String userId = childSnapshot.getKey();
+                        if (userId != null) {
+                            DatabaseReference userRef = databaseRef.child(userId);
+                            userRef.child("password").setValue(hashedPassword)
+                                    .addOnSuccessListener(aVoid -> callback.onSuccess())
+                                    .addOnFailureListener(e -> callback.onFailure(e));
+                            return;
+                        }
+                    }
+                } else {
+                    callback.onFailure(new Exception("Usuario no encontrado"));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callback.onFailure(error.toException());
             }
         });
     }

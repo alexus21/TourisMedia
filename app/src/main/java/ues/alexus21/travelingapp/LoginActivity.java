@@ -1,6 +1,7 @@
 package ues.alexus21.travelingapp;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -30,7 +31,7 @@ import ues.alexus21.travelingapp.localstorage.LocalUserModel;
 public class LoginActivity extends AppCompatActivity {
 
     SpannableString spannableString;
-    TextView lbl_login_aActivitySignup;
+    TextView lbl_login_aActivitySignup, lbl_password_forgotten;
 
     EditText txtUsuarioLogin, txtConstrasenaLogin;
     Button btn_ingresar;
@@ -41,27 +42,13 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
         lbl_login_aActivitySignup = findViewById(R.id.lbl_login_aActivitySignup);
+        lbl_password_forgotten = findViewById(R.id.lbl_password_forgotten);
         txtUsuarioLogin = findViewById(R.id.txtUsuarioLogin);
         txtConstrasenaLogin = findViewById(R.id.txtConstrasenaLogin);
         btn_ingresar = findViewById(R.id.btn_ingresar);
 
-        String text = "¿No tienes cuenta? ¡Registrate!";
-        spannableString = new SpannableString(text);
-
-        int startIndex = 0;
-        int endIndex = text.length();
-
-        ClickableSpan clickableSpan = new ClickableSpan() {
-            @Override
-            public void onClick(@NonNull View widget) {
-                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(registerIntent);
-            }
-        };
-
-        spannableString.setSpan(clickableSpan, startIndex, endIndex, 0);
-        lbl_login_aActivitySignup.setText(spannableString);
-        lbl_login_aActivitySignup.setMovementMethod(LinkMovementMethod.getInstance());
+        createSpannableString("¿No tienes cuenta? ¡Regístrate!", lbl_login_aActivitySignup, RegisterActivity.class);
+        createSpannableString("¿Olvidaste tu contraseña?", lbl_password_forgotten, PasswordForgottenActivity.class);
 
         btn_ingresar.setOnClickListener(v -> {
             String email = txtUsuarioLogin.getText().toString().trim();
@@ -124,5 +111,25 @@ public class LoginActivity extends AppCompatActivity {
 
     private void mostrarMensajeError(String mensaje) {
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+    }
+
+    void createSpannableString(String text, TextView item, Class<? extends Activity> targetActivity) {
+        spannableString = new SpannableString(text);
+
+        int startIndex = 0;
+        int endIndex = text.length();
+
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View widget) {
+                Intent registerIntent = new Intent(LoginActivity.this, targetActivity);
+                startActivity(registerIntent);
+                finish();
+            }
+        };
+
+        spannableString.setSpan(clickableSpan, startIndex, endIndex, 0);
+        item.setText(spannableString);
+        item.setMovementMethod(LinkMovementMethod.getInstance());
     }
 }
