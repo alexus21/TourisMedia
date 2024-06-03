@@ -12,7 +12,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="75dp"
         android:background="@drawable/bg_boton"
 
         android:minHeight="?attr/actionBarSize"
@@ -27,33 +27,39 @@
     </androidx.appcompat.widget.Toolbar>
 
     <!-- nombre app  -->
+
+
     <TextView
         android:id="@+id/lblnameapp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/comfortaa_bold"
-        android:text="TourisMedia"
+        android:text="TravelingApp"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/txt_busqueda"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.067"
+        app:layout_constraintHorizontal_bias="0.055"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.592" />
 
 
+    <!-- lista de los destinos turisticos-->
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgUsuarioLogeado"
         android:layout_width="36dp"
         android:layout_height="36dp"
+        android:layout_marginTop="8dp"
         android:foreground="@drawable/icon_user"
         android:foregroundGravity="fill"
         android:foregroundTint="@color/yellow_peach"
         app:background="@drawable/bg_boton"
         app:layout_constraintBottom_toTopOf="@+id/txt_busqueda"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.914"
+        app:layout_constraintHorizontal_bias="0.932"
         app:layout_constraintStart_toEndOf="@+id/lblnameapp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.571" />
@@ -62,43 +68,16 @@
         android:id="@+id/lblUsuarioLogeado"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/comfortaa_bold"
         android:gravity="right"
         android:text=""
         android:textColor="@color/white"
         android:textSize="17sp"
         app:layout_constraintEnd_toStartOf="@+id/imgUsuarioLogeado"
-        app:layout_constraintHorizontal_bias="0.738"
+        app:layout_constraintHorizontal_bias="0.812"
         app:layout_constraintStart_toEndOf="@+id/lblnameapp"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Busqueda  -->
-    <EditText
-        android:id="@+id/txt_busqueda"
-        android:layout_width="380dp"
-        android:layout_height="40dp"
-        android:layout_alignBottom="@+id/toolbar"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:background="@drawable/bg_boton2"
-        android:drawableStart="@drawable/icon_search"
-        android:drawablePadding="6dp"
-        android:drawableTint="@color/sky_blue"
-        android:fontFamily="@font/comfortaa_regular"
-        android:hint="Buscar"
-        android:inputType="text"
-        android:textColorHint="@color/sky_blue"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
-        app:layout_constraintStart_toStartOf="@+id/toolbar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.787" />
-
-
-    <!-- lista de los destinos turisticos-->
 
     <ListView
         android:id="@+id/ltsDestinosTuristicos"
