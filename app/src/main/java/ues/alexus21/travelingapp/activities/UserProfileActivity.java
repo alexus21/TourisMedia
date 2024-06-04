@@ -37,7 +37,7 @@ public class UserProfileActivity extends AppCompatActivity {
         btnUpdateMyPassword = findViewById(R.id.btnSetRating);
         btnEndSession = findViewById(R.id.btnEndSession);
         btnDeleteMyAccount = findViewById(R.id.btnDeleteMyAccount);
-        txtEmail = findViewById(R.id.txtEmail);
+        txtEmail = findViewById(R.id.txtComments);
         txtPassword = findViewById(R.id.txtPassword);
         txtRetypedPassword = findViewById(R.id.txtRetypedPassword);
 

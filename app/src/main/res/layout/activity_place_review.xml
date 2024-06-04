@@ -23,63 +23,70 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023" />
 
-
     <Button
         android:id="@+id/btnSetRating"
-        android:layout_width="200dp"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="28dp"
         android:background="@drawable/bg_boton_agregardestino"
         android:fontFamily="@font/comfortaa_bold"
         android:text="Añadir calificación"
         android:textColor="@color/blue_rackley"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="397dp"
-        android:layout_height="120dp"
+        android:layout_width="367dp"
+        android:layout_height="142dp"
         android:layout_marginTop="32dp"
         android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgDestino"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="7dp">
+        tools:ignore="MissingConstraints">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textViewDestinyName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
+            android:fontFamily="@font/comfortaa_regular"
             android:text="Nombre del destino: "
+            android:textColor="@color/moonstone_blue"
             android:textSize="18sp"
             tools:ignore="HardcodedText" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textViewDescription"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_marginBottom="15dp"
+            android:fontFamily="@font/comfortaa_regular"
             android:text="Descripción: "
+            android:textColor="@color/moonstone_blue"
             android:textSize="18sp"
             tools:ignore="HardcodedText" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textViewComments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/comfortaa_regular"
             android:text="Ubicación: "
+            android:textColor="@color/moonstone_blue"
             android:textSize="18sp"
             tools:ignore="HardcodedText" />
     </LinearLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgDestino"
-        android:layout_width="363dp"
-        android:layout_height="207dp"
+        android:layout_width="320dp"
+        android:layout_height="206dp"
         android:layout_marginTop="64dp"
         android:background="@android:color/transparent"
         android:foreground="@drawable/icon_galeria_color"
@@ -91,13 +98,14 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="405dp"
-        android:layout_height="67dp"
+        android:layout_width="364dp"
+        android:layout_height="69dp"
         android:layout_marginTop="24dp"
         android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="4dp">
+        tools:ignore="MissingConstraints">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/nombre_text_input_layout"
@@ -115,7 +123,7 @@
             app:layout_constraintVertical_bias="0.115">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtEmail"
+                android:id="@+id/txtComments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/comfortaa_regular"
@@ -130,30 +138,39 @@
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="411dp"
+        android:layout_width="363dp"
         android:layout_height="84dp"
         android:layout_marginTop="24dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/textViewRating"
             android:layout_width="149dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1"
+            android:fontFamily="@font/comfortaa_regular"
             android:text=" Calificación:"
-            android:textSize="18sp" />
+            android:textColor="@color/moonstone_blue"
+            android:textSize="18sp"
+            tools:ignore="HardcodedText" />
 
         <RatingBar
             android:id="@+id/ratingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/yellow_peach"
+            android:backgroundTintMode="src_in"
             android:isIndicator="false"
             android:numStars="5"
+            android:progressTint="@color/yellow_peach"
+            android:progressTintMode="src_in"
+            android:secondaryProgressTint="@color/yellow_peach"
+            android:secondaryProgressTintMode="src_in"
             android:stepSize="0.1" />
 
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
