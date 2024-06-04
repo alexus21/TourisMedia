@@ -66,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
-            boolean isValid = UserValidator.validateRegistration(email, password, retypePassword,
+            boolean isValid = UserValidator.validateLogin(email, password, retypePassword,
                     txtCorreoRegister, txtPasswordRegister, txtRetypePasswordRegister);
 
             if (!isValid) {

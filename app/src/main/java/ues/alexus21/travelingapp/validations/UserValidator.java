@@ -4,8 +4,8 @@ import android.widget.EditText;
 
 public class UserValidator {
 
-    public static boolean validateRegistration(String email, String password, String retypePassword,
-                                               EditText txtCorreoRegister, EditText txtPasswordRegister, EditText txtRetypePasswordRegister) {
+    public static boolean validateLogin(String email, String password, String retypePassword,
+                                        EditText txtCorreoRegister, EditText txtPasswordRegister, EditText txtRetypePasswordRegister) {
 
         if (!UserRegistrationValidation.validateEmailStructure(email)) {
             txtCorreoRegister.setError("El correo debe ser de un dominio permitido");
@@ -40,8 +40,8 @@ public class UserValidator {
         return true;
     }
 
-    public static boolean validateRegistration(String email, String password,
-                                               EditText txtCorreoRegister, EditText txtPasswordRegister) {
+    public static boolean validateLogin(String email, String password,
+                                        EditText txtCorreoRegister, EditText txtPasswordRegister) {
 
         if (email.isEmpty()) {
             txtCorreoRegister.setError("Ingrese su correo electrónico");

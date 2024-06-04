@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            boolean isValid = UserValidator.validateRegistration(email, password,
+            boolean isValid = UserValidator.validateLogin(email, password,
                     txtUsuarioLogin, txtConstrasenaLogin);
 
             if (!isValid) {

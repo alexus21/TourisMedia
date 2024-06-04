@@ -59,7 +59,7 @@ public class PasswordForgottenActivity extends AppCompatActivity {
                 return;
             }
 
-            boolean isValid = UserValidator.validateRegistration(email, password, retypePassword,
+            boolean isValid = UserValidator.validateLogin(email, password, retypePassword,
                     txtCorreoRecover, txtPasswordRecover, txtRetypePasswordRegister);
 
             if (!isValid) {

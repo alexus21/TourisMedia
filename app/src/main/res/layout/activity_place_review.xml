@@ -85,8 +85,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgDestino"
-        android:layout_width="320dp"
-        android:layout_height="206dp"
+        android:layout_width="323dp"
+        android:layout_height="214dp"
         android:layout_marginTop="64dp"
         android:background="@android:color/transparent"
         android:foreground="@drawable/icon_galeria_color"
@@ -140,9 +140,10 @@
         android:id="@+id/linearLayout3"
         android:layout_width="363dp"
         android:layout_height="84dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="68dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.566"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
@@ -162,7 +163,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:backgroundTint="@color/red_salmon_like"
             android:backgroundTintMode="src_in"
             android:isIndicator="false"
             android:numStars="5"

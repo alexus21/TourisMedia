@@ -83,7 +83,7 @@ public class UserProfileActivity extends AppCompatActivity {
                 return;
             }
 
-            boolean isValid = UserValidator.validateRegistration(email, password, retypePassword, txtEmail, txtPassword, txtRetypedPassword);
+            boolean isValid = UserValidator.validateLogin(email, password, retypePassword, txtEmail, txtPassword, txtRetypedPassword);
 
             if (!isValid) {
                 return;
