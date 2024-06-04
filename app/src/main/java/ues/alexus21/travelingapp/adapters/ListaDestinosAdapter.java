@@ -23,6 +23,7 @@ public class ListaDestinosAdapter extends BaseAdapter {
     ArrayList<ListaDestinos> listaDestinos;
     Context context;
     TextView textViewPlaceName, textViewPlaceDescription, textViewPlaceLocation;
+    ImageView imageViewFavouritePlaceMark;
 
     public ListaDestinosAdapter(ArrayList<ListaDestinos> listaDestinos, Context context) {
         this.listaDestinos = listaDestinos;
@@ -43,9 +44,11 @@ public class ListaDestinosAdapter extends BaseAdapter {
         return 0;
     }
 
-    @SuppressLint("InflateParams")
+    @SuppressLint({"InflateParams", "UseCompatLoadingForDrawables"})
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        final boolean[] heartFlag = {false}; // Bandera para saber si el lugar es favorito
+
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_adapter_lista_destinos, null);
         }
@@ -54,6 +57,17 @@ public class ListaDestinosAdapter extends BaseAdapter {
         textViewPlaceName = convertView.findViewById(R.id.textViewPlaceName);
         textViewPlaceDescription = convertView.findViewById(R.id.textViewPlaceDescription);
         textViewPlaceLocation = convertView.findViewById(R.id.textViewPlaceLocation);
+        imageViewFavouritePlaceMark = convertView.findViewById(R.id.imageViewFavouritePlaceMark);
+
+        imageViewFavouritePlaceMark.setOnClickListener(v -> {
+            if(!heartFlag[0]) {
+                imageViewFavouritePlaceMark.setImageResource(R.drawable.icon_heart_relleno);
+                heartFlag[0] = true;
+            } else {
+                imageViewFavouritePlaceMark.setImageResource(R.drawable.icon_heart_contorno);
+                heartFlag[0] = false;
+            }
+        });
 
         Glide.with(context)
                 .load(listaDestinos.get(position).getImg_url())
