@@ -16,6 +16,7 @@ import ues.alexus21.travelingapp.R;
 import ues.alexus21.travelingapp.firebasedatacollection.FirebaseDataCollection;
 import ues.alexus21.travelingapp.localstorage.ILocalUserDAO;
 import ues.alexus21.travelingapp.validations.EncryptPassword;
+import ues.alexus21.travelingapp.validations.NetworkChecker;
 import ues.alexus21.travelingapp.validations.UserValidator;
 
 public class UserProfileActivity extends AppCompatActivity {
@@ -37,7 +38,7 @@ public class UserProfileActivity extends AppCompatActivity {
         btnUpdateMyPassword = findViewById(R.id.btnSetRating);
         btnEndSession = findViewById(R.id.btnEndSession);
         btnDeleteMyAccount = findViewById(R.id.btnDeleteMyAccount);
-        txtEmail = findViewById(R.id.txtComments);
+        txtEmail = findViewById(R.id.editTextAddComments);
         txtPassword = findViewById(R.id.txtPassword);
         txtRetypedPassword = findViewById(R.id.txtRetypedPassword);
 
@@ -54,11 +55,21 @@ public class UserProfileActivity extends AppCompatActivity {
         });
 
         btnEndSession.setOnClickListener(v -> {
+            if(NetworkChecker.checkInternetConnection(this)) {
+                mostrarMensaje("No hay conexión a internet");
+                return;
+            }
+
             localUserDAO.logout(userId);
             startActivity(new Intent(UserProfileActivity.this, LoginActivity.class));
         });
 
         btnDeleteMyAccount.setOnClickListener(v -> {
+            if(NetworkChecker.checkInternetConnection(this)) {
+                mostrarMensaje("No hay conexión a internet");
+                return;
+            }
+
             showConfirmationDialog(userId);
         });
 
@@ -66,6 +77,12 @@ public class UserProfileActivity extends AppCompatActivity {
             String email = txtEmail.getText().toString().trim();
             String password = txtPassword.getText().toString().trim();
             String retypePassword = txtRetypedPassword.getText().toString().trim();
+
+            if(NetworkChecker.checkInternetConnection(this)) {
+                mostrarMensaje("No hay conexión a internet");
+                return;
+            }
+
             boolean isValid = UserValidator.validateRegistration(email, password, retypePassword, txtEmail, txtPassword, txtRetypedPassword);
 
             if (!isValid) {
@@ -80,12 +97,12 @@ public class UserProfileActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess() {
                     localUserDAO.updateUserPassword(email, EncryptPassword.encryptPassword(password));
-                    Toast.makeText(UserProfileActivity.this, "Contraseña actualizada exitosamente", Toast.LENGTH_SHORT).show();
+                    mostrarMensaje("Contraseña actualizada correctamente");
                 }
 
                 @Override
                 public void onFailure(Exception e) {
-                    Toast.makeText(UserProfileActivity.this, "Error al actualizar la contraseña: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    mostrarMensaje("Error al actualizar la contraseña");
                 }
             });
 
@@ -106,14 +123,15 @@ public class UserProfileActivity extends AppCompatActivity {
             FirebaseDataCollection.deleteUserById(userId, new FirebaseDataCollection.DeleteUserCallback() {
                 @Override
                 public void onSuccess() {
-                    Toast.makeText(UserProfileActivity.this, "Usuario eliminado correctamente", Toast.LENGTH_SHORT).show();
+                    mostrarMensaje("Cuenta eliminada correctamente");
                     startActivity(new Intent(UserProfileActivity.this, LoginActivity.class));
                     finish();
                 }
 
                 @Override
                 public void onFailure(Exception e) {
-                    Toast.makeText(UserProfileActivity.this, "Error al eliminar usuario: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    mostrarMensaje("Ocurió un error al eliminar tu cuenta: ");
+                    System.out.println("Error al eliminar cuenta: " + e.getMessage());
                 }
             });
         });
@@ -124,5 +142,9 @@ public class UserProfileActivity extends AppCompatActivity {
         // Crear y mostrar el AlertDialog
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void mostrarMensaje(String mensaje) {
+        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
 }

@@ -3,8 +3,10 @@ package ues.alexus21.travelingapp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -21,6 +23,8 @@ public class PlaceReviewActivity extends AppCompatActivity {
     ImageView imgAtras;
     RatingBar ratingBar;
     Button btnSetRating;
+    TextView textViewDestinyName, textViewDescription, textViewLocation;
+    EditText editTextAddComments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,10 @@ public class PlaceReviewActivity extends AppCompatActivity {
         imgAtras = findViewById(R.id.imgAtras);
         ratingBar = findViewById(R.id.ratingBar);
         btnSetRating = findViewById(R.id.btnSetRating);
+        textViewDestinyName = findViewById(R.id.textViewDestinyName);
+        textViewDescription = findViewById(R.id.textViewDescription);
+        textViewLocation = findViewById(R.id.textViewLocation);
+        editTextAddComments = findViewById(R.id.editTextAddComments);
 
         ratingBar.setNumStars(5);
 
@@ -49,6 +57,9 @@ public class PlaceReviewActivity extends AppCompatActivity {
         ratingBar.setRating(rating);
         btnSetRating.setOnClickListener(v -> {
             Toast.makeText(this, "Rating: " + ratingBar.getRating(), Toast.LENGTH_SHORT).show();
+
+            String comments = editTextAddComments.getText().toString();
+            // Sin evento de comentario vacío, porque puede ser que el usuario ingrese solo el rating sin el comentario
         });
 
 

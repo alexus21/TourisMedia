@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -21,6 +22,7 @@ public class ListaDestinosAdapter extends BaseAdapter {
 
     ArrayList<ListaDestinos> listaDestinos;
     Context context;
+    TextView textViewPlaceName, textViewPlaceDescription, textViewPlaceLocation;
 
     public ListaDestinosAdapter(ArrayList<ListaDestinos> listaDestinos, Context context) {
         this.listaDestinos = listaDestinos;
@@ -49,6 +51,9 @@ public class ListaDestinosAdapter extends BaseAdapter {
         }
 
         ImageView imageView = convertView.findViewById(R.id.imageView);
+        textViewPlaceName = convertView.findViewById(R.id.textViewPlaceName);
+        textViewPlaceDescription = convertView.findViewById(R.id.textViewPlaceDescription);
+        textViewPlaceLocation = convertView.findViewById(R.id.textViewPlaceLocation);
 
         Glide.with(context)
                 .load(listaDestinos.get(position).getImg_url())

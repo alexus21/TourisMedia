@@ -22,6 +22,7 @@ import ues.alexus21.travelingapp.R;
 import ues.alexus21.travelingapp.firebasedatacollection.FirebaseDataCollection;
 import ues.alexus21.travelingapp.localstorage.ILocalUserDAO;
 import ues.alexus21.travelingapp.localstorage.LocalUserModel;
+import ues.alexus21.travelingapp.validations.NetworkChecker;
 import ues.alexus21.travelingapp.validations.UserValidator;
 
 public class LoginActivity extends AppCompatActivity {
@@ -49,6 +50,11 @@ public class LoginActivity extends AppCompatActivity {
         btn_ingresar.setOnClickListener(v -> {
             String email = txtUsuarioLogin.getText().toString().trim();
             String password = txtConstrasenaLogin.getText().toString().trim();
+
+            if(NetworkChecker.checkInternetConnection(this)) {
+                mostrarMensajeError("No hay conexión a internet");
+                return;
+            }
 
             boolean isValid = UserValidator.validateRegistration(email, password,
                     txtUsuarioLogin, txtConstrasenaLogin);

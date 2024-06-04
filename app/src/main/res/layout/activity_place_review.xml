@@ -73,7 +73,7 @@
             tools:ignore="HardcodedText" />
 
         <TextView
-            android:id="@+id/textViewComments"
+            android:id="@+id/textViewLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/comfortaa_regular"
@@ -123,7 +123,7 @@
             app:layout_constraintVertical_bias="0.115">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtComments"
+                android:id="@+id/editTextAddComments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/comfortaa_regular"
@@ -162,13 +162,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:backgroundTint="@color/yellow_peach"
+            android:backgroundTint="@color/red_salmon_like"
             android:backgroundTintMode="src_in"
             android:isIndicator="false"
             android:numStars="5"
             android:progressTint="@color/yellow_peach"
             android:progressTintMode="src_in"
-            android:secondaryProgressTint="@color/yellow_peach"
+            android:secondaryProgressTint="@color/grey"
             android:secondaryProgressTintMode="src_in"
             android:stepSize="0.1" />
 

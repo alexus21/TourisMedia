@@ -27,6 +27,7 @@ import ues.alexus21.travelingapp.localstorage.ILocalUserDAO;
 import ues.alexus21.travelingapp.localstorage.LocalUserModel;
 import ues.alexus21.travelingapp.user.User;
 import ues.alexus21.travelingapp.validations.EncryptPassword;
+import ues.alexus21.travelingapp.validations.NetworkChecker;
 import ues.alexus21.travelingapp.validations.UserValidator;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -59,6 +60,11 @@ public class RegisterActivity extends AppCompatActivity {
             String email = txtCorreoRegister.getText().toString().trim();
             String password = txtPasswordRegister.getText().toString().trim();
             String retypePassword = txtRetypePasswordRegister.getText().toString().trim();
+
+            if(NetworkChecker.checkInternetConnection(this)) {
+                mostrarMensaje("No hay conexión a internet");
+                return;
+            }
 
             boolean isValid = UserValidator.validateRegistration(email, password, retypePassword,
                     txtCorreoRegister, txtPasswordRegister, txtRetypePasswordRegister);
@@ -95,10 +101,10 @@ public class RegisterActivity extends AppCompatActivity {
         // Insertar a Firebase:
         reference.child("users").push().setValue(user)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Usuario registrado", Toast.LENGTH_SHORT).show();
+                    mostrarMensaje("Usuario registrado correctamente");
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
+                    mostrarMensaje("Error al registrar usuario");
                 });
 
         // Guardar localmente:
@@ -123,5 +129,9 @@ public class RegisterActivity extends AppCompatActivity {
         spannableString.setSpan(clickableSpan, startIndex, endIndex, 0);
         item.setText(spannableString);
         item.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    private void mostrarMensaje(String mensaje) {
+        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
 }

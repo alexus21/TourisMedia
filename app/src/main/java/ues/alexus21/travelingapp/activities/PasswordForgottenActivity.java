@@ -23,6 +23,7 @@ import ues.alexus21.travelingapp.R;
 import ues.alexus21.travelingapp.firebasedatacollection.FirebaseDataCollection;
 import ues.alexus21.travelingapp.localstorage.ILocalUserDAO;
 import ues.alexus21.travelingapp.validations.EncryptPassword;
+import ues.alexus21.travelingapp.validations.NetworkChecker;
 import ues.alexus21.travelingapp.validations.UserValidator;
 
 public class PasswordForgottenActivity extends AppCompatActivity {
@@ -52,6 +53,11 @@ public class PasswordForgottenActivity extends AppCompatActivity {
             String email = txtCorreoRecover.getText().toString().trim();
             String password = txtPasswordRecover.getText().toString().trim();
             String retypePassword = txtRetypePasswordRegister.getText().toString().trim();
+
+            if(NetworkChecker.checkInternetConnection(this)) {
+                mostrarMensaje("No hay conexión a internet");
+                return;
+            }
 
             boolean isValid = UserValidator.validateRegistration(email, password, retypePassword,
                     txtCorreoRecover, txtPasswordRecover, txtRetypePasswordRegister);
@@ -83,12 +89,12 @@ public class PasswordForgottenActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 localUserDAO.updateUserPassword(email, EncryptPassword.encryptPassword(password));
-                Toast.makeText(PasswordForgottenActivity.this, "Contraseña actualizada exitosamente", Toast.LENGTH_SHORT).show();
+                mostrarMensaje("Contraseña actualizada correctamente");
             }
 
             @Override
             public void onFailure(Exception e) {
-                Toast.makeText(PasswordForgottenActivity.this, "Error al actualizar la contraseña: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                mostrarMensaje("Error al actualizar la contraseña");
             }
         });
 
@@ -114,5 +120,9 @@ public class PasswordForgottenActivity extends AppCompatActivity {
         spannableString.setSpan(clickableSpan, startIndex, endIndex, 0);
         item.setText(spannableString);
         item.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    private void mostrarMensaje(String mensaje) {
+        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
 }

@@ -39,6 +39,7 @@ import ues.alexus21.travelingapp.firebasedatacollection.FirebaseDataCollection;
 import ues.alexus21.travelingapp.localstorage.ILocalUserDAO;
 import ues.alexus21.travelingapp.localstorage.LocalUserModel;
 import ues.alexus21.travelingapp.models.ListaDestinos;
+import ues.alexus21.travelingapp.validations.NetworkChecker;
 
 public class ListaDestinosActivity extends AppCompatActivity {
     TextView lblUsuarioLogeado;
@@ -65,6 +66,10 @@ public class ListaDestinosActivity extends AppCompatActivity {
         imgUsuarioLogeado = findViewById(R.id.imgUsuarioLogeado);
         ltsDestinosTuristicos = findViewById(R.id.ltsDestinosTuristicos);
         listaDestinos = new ArrayList<>();
+
+        if(NetworkChecker.checkInternetConnection(this)) {
+            mostrarMensaje("No hay conexión a internet");
+        }
 
         DatabaseReference destinationReference = FirebaseDatabase.getInstance().getReference("destination");
         destinationReference.addValueEventListener(new ValueEventListener() {
@@ -132,9 +137,9 @@ public class ListaDestinosActivity extends AppCompatActivity {
         UploadTask uploadTask = storageRef.putFile(fileUri);
 
         uploadTask.addOnSuccessListener(taskSnapshot -> {
-            Toast.makeText(this, "Upload successful", Toast.LENGTH_SHORT).show();
+            mostrarMensaje("Upload successful");
         }).addOnFailureListener(exception -> {
-            Toast.makeText(this, "Upload failed", Toast.LENGTH_SHORT).show();
+            mostrarMensaje("Upload failed");
         });
     }
 
@@ -181,7 +186,7 @@ public class ListaDestinosActivity extends AppCompatActivity {
         try {
             String[] files = assetManager.list("img");
             if (files != null) {
-                Toast.makeText(context, "Numero de imagenes encontradas: " + files.length, Toast.LENGTH_SHORT).show();
+                mostrarMensaje("Numero de imagenes encontradas: " + files.length);
                 for (String filename : files) {
                     InputStream inputStream = assetManager.open("img/" + filename);
                     File tempFile = new File(getCacheDir(), filename);
@@ -203,7 +208,7 @@ public class ListaDestinosActivity extends AppCompatActivity {
                     uploadToFirebaseStorage(tempFile);
                 }
             } else {
-                Toast.makeText(context, "No se encontraron imágenes en la carpeta assets/img", Toast.LENGTH_SHORT).show();
+                mostrarMensaje("No se encontraron imágenes en la carpeta de assets/img");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -217,9 +222,13 @@ public class ListaDestinosActivity extends AppCompatActivity {
             if (listResult.getItems().isEmpty()) {
                 processImagesFromAssets(context);
             } else {
-                Toast.makeText(context, "Ya existen imágenes en Firebase Storage", Toast.LENGTH_SHORT).show();
+                mostrarMensaje("Ya existen imágenes en Firebase Storage");
             }
         });
+    }
+
+    private void mostrarMensaje(String mensaje) {
+        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
 
 }
