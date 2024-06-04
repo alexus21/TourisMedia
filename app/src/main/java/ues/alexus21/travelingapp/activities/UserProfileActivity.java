@@ -51,7 +51,7 @@ public class UserProfileActivity extends AppCompatActivity {
         txtEmail.setLongClickable(false);
 
         imgAtras.setOnClickListener(v -> {
-            startActivity(new Intent(UserProfileActivity.this, ListaDestinosActivity.class));
+            startActivity(new Intent(UserProfileActivity.this, HomeActivity.class));
         });
 
         btnEndSession.setOnClickListener(v -> {

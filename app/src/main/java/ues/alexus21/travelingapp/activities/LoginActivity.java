@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void iniciarListaDestinosActivity() {
-        Intent intent = new Intent(LoginActivity.this, ListaDestinosActivity.class);
+        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(intent);
         finish();
     }

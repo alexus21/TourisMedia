@@ -4,27 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".activities.ListaDestinosActivity">
+    tools:context=".fragments.FavoritosFragment">
 
-    <!-- Destinos turisticos lista -->
+    <!-- Zona de favoritos de los destinos-->
 
-    <!-- nombre app  -->
-
-
-    <!-- lista de los destinos turisticos-->
+    <!-- bottom navegation-->
 
     <ListView
         android:id="@+id/ltsDestinosTuristicos"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
 
     </ListView>
-
-    <!-- bottom navegation-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

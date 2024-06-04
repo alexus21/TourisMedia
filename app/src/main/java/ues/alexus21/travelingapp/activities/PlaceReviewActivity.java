@@ -44,7 +44,7 @@ public class PlaceReviewActivity extends AppCompatActivity {
         ratingBar.setNumStars(5);
 
         imgAtras.setOnClickListener(v -> {
-            Intent listaDestinosActivity = new Intent(PlaceReviewActivity.this, ListaDestinosActivity.class);
+            Intent listaDestinosActivity = new Intent(PlaceReviewActivity.this, HomeActivity.class);
             startActivity(listaDestinosActivity);
         });
 

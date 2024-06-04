@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         String userId = localUserDAO.getUserId();
 
         if (userId != null) {
-            Intent intent = new Intent(this, ListaDestinosActivity.class);
+            Intent intent = new Intent(this, HomeActivity.class);
             startActivity(intent);
             finish();
             return;

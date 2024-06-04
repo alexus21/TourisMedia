@@ -82,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
                     btnSignUp.setEnabled(true); // Habilitar el botón si el correo ya está registrado
                 } else {
                     registerUser(email, password);
-                    Intent listaDestinos = new Intent(RegisterActivity.this, ListaDestinosActivity.class);
+                    Intent listaDestinos = new Intent(RegisterActivity.this, HomeActivity.class);
                     startActivity(listaDestinos);
                 }
             });
