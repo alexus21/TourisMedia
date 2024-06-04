@@ -67,7 +67,7 @@ public class ListaDestinosFragment extends Fragment {
         ltsDestinosTuristicos = root.findViewById(R.id.ltsDestinosTuristicos);
         listaDestinos = new ArrayList<>();
 
-        if (!NetworkChecker.checkInternetConnection(requireContext())) {
+        if (NetworkChecker.checkInternetConnection(requireContext())) {
             mostrarMensaje("No hay conexión a internet");
         }
 

@@ -37,6 +37,7 @@ public class HomeActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     TextView lblnameapp;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +48,9 @@ public class HomeActivity extends AppCompatActivity {
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users");
         localUserDAO = DatabaseSingleton.getDatabase(this).localUserDAO();
 
+        // Llama a setLoggedUserName para establecer el nombre de usuario
+        setLoggedUserName(databaseRef, localUserDAO);
+
         lblUsuarioLogeado = findViewById(R.id.lblUsuarioLogeado);
         imgUsuarioLogeado = findViewById(R.id.imgUsuarioLogeado);
 
@@ -56,6 +60,7 @@ public class HomeActivity extends AppCompatActivity {
         fragmentContainerView = findViewById(R.id.fragmentContainerView);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         lblnameapp = findViewById(R.id.lblnameapp);
+        lblnameapp.setText("Destinos");
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this::handleNavigationItemSelected);
 
@@ -64,9 +69,6 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(userProfileIntent);
             finish();
         });
-
-        // Llama a setLoggedUserName para establecer el nombre de usuario
-        setLoggedUserName(databaseRef, localUserDAO);
     }
 
     @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
@@ -82,7 +84,7 @@ public class HomeActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragmentContainerView, favoritosFragment)
                         .commit();
-                lblnameapp.setText("Favoritos");
+                lblnameapp.setText("Mis Favoritos");
                 return true;
             default:
                 return false;
