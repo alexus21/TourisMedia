@@ -29,57 +29,69 @@
     <!-- nombre app  -->
 
 
+    <!-- lista de los destinos turisticos-->
+
+    <!-- bottom navegation-->
+
     <TextView
         android:id="@+id/lblnameapp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/comfortaa_bold"
         android:text="TravelingApp"
         android:textColor="@color/white"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/txt_busqueda"
+        app:layout_constraintBottom_toTopOf="@+id/lblUsuarioLogeado"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.055"
+        app:layout_constraintHorizontal_bias="0.059"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.592" />
-
-
-    <!-- lista de los destinos turisticos-->
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgUsuarioLogeado"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="8dp"
-        android:foreground="@drawable/icon_user"
-        android:foregroundGravity="fill"
-        android:foregroundTint="@color/yellow_peach"
-        app:background="@drawable/bg_boton"
-        app:layout_constraintBottom_toTopOf="@+id/txt_busqueda"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.932"
-        app:layout_constraintStart_toEndOf="@+id/lblnameapp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.571" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/lblUsuarioLogeado"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/comfortaa_bold"
         android:gravity="right"
         android:text=""
         android:textColor="@color/white"
         android:textSize="17sp"
         app:layout_constraintEnd_toStartOf="@+id/imgUsuarioLogeado"
-        app:layout_constraintHorizontal_bias="0.812"
+        app:layout_constraintHorizontal_bias="0.814"
         app:layout_constraintStart_toEndOf="@+id/lblnameapp"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- bottom navegation-->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgUsuarioLogeado"
+        android:layout_width="44dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="16dp"
+        android:foreground="@drawable/icon_user"
+        android:foregroundGravity="fill"
+        android:foregroundTint="@color/yellow_peach"
+        app:background="@drawable/bg_boton"
+        app:layout_constraintBottom_toTopOf="@+id/lblUsuarioLogeado"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.923"
+        app:layout_constraintStart_toEndOf="@+id/lblnameapp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnAgregarDestinos"
+        android:layout_width="58dp"
+        android:layout_height="57dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/darkgrey"
+        android:foreground="@drawable/icon_add_turismo"
+        android:foregroundTint="@color/yellow_peach"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"

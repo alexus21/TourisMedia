@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentContainerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -38,6 +39,7 @@ public class HomeActivity extends AppCompatActivity {
     FragmentContainerView fragmentContainerView;
     BottomNavigationView bottomNavigationView;
     TextView lblnameapp;
+    FloatingActionButton btnAgregarDestinos;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -55,6 +57,7 @@ public class HomeActivity extends AppCompatActivity {
 
         lblUsuarioLogeado = findViewById(R.id.lblUsuarioLogeado);
         imgUsuarioLogeado = findViewById(R.id.imgUsuarioLogeado);
+        btnAgregarDestinos = findViewById(R.id.btnAgregarDestinos);
 
         listaDestinosFragment = new ListaDestinosFragment();
         favoritosFragment = new FavoritosFragment();
@@ -72,12 +75,18 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(userProfileIntent);
             finish();
         });
+
+        btnAgregarDestinos.setOnClickListener(v -> {
+            Intent nuevoPostIntent = new Intent(this, NuevoPostActivity.class);
+            startActivity(nuevoPostIntent);
+        });
     }
 
     @SuppressLint({"NonConstantResourceId", "SetTextI18n"})
     private boolean handleNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.navPrincipal:
+                btnAgregarDestinos.show();
                 mainFragment = new ListaDestinosFragment();
                 /*getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragmentContainerView, listaDestinosFragment)
@@ -86,6 +95,7 @@ public class HomeActivity extends AppCompatActivity {
                 nameApp = "Destinos";
                 break;
             case R.id.navFavoritos:
+                btnAgregarDestinos.hide();
                 mainFragment = new FavoritosFragment();
                 /*getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragmentContainerView, favoritosFragment)
