@@ -41,9 +41,9 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="367dp"
-        android:layout_height="142dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="358dp"
+        android:layout_height="184dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,7 +64,7 @@
         <TextView
             android:id="@+id/textViewDescription"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="65dp"
             android:layout_marginBottom="15dp"
             android:fontFamily="@font/comfortaa_regular"
             android:text="Descripción: "
@@ -86,11 +86,13 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgDestino"
         android:layout_width="323dp"
-        android:layout_height="214dp"
+        android:layout_height="179dp"
         android:layout_marginTop="64dp"
         android:background="@android:color/transparent"
         android:foreground="@drawable/icon_galeria_color"
         android:foregroundGravity="fill"
+        android:layout_gravity="center"
+        android:src="@drawable/bg_boton_eliminarcuenta"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
@@ -127,7 +129,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/comfortaa_regular"
-                android:inputType="textPassword"
+                android:inputType="textMultiLine"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 app:passwordToggleEnabled="true" />

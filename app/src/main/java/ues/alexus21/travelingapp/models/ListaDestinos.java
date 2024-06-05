@@ -5,6 +5,7 @@ public class ListaDestinos {
     public String img_url;
     public String location;
     public String name;
+    public String id;
 
     public ListaDestinos() {
     }
@@ -15,11 +16,27 @@ public class ListaDestinos {
         this.name = name;
     }
 
+    public ListaDestinos(String description, String img_url, String location, String name, String id) {
+        this.description = description;
+        this.img_url = img_url;
+        this.location = location;
+        this.name = name;
+        this.id = id;
+    }
+
     public ListaDestinos(String description, String img_url, String location, String name) {
         this.description = description;
         this.img_url = img_url;
         this.location = location;
         this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDescription() {

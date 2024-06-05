@@ -10,8 +10,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -24,11 +32,14 @@ public class ListaDestinosAdapter extends BaseAdapter {
     ArrayList<ListaDestinos> listaDestinos;
     Context context;
     SparseBooleanArray favouriteStatus;
+    String idUsuario;
 
-    public ListaDestinosAdapter(ArrayList<ListaDestinos> listaDestinos, Context context) {
+    public ListaDestinosAdapter(ArrayList<ListaDestinos> listaDestinos, Context context, String idUsuario) {
         this.listaDestinos = listaDestinos;
         this.context = context;
         this.favouriteStatus = new SparseBooleanArray();
+        this.idUsuario = idUsuario;
+        checkFavourites();
     }
 
     @Override
@@ -61,9 +72,6 @@ public class ListaDestinosAdapter extends BaseAdapter {
 
         ListaDestinos destino = listaDestinos.get(position);
 
-        /*favouriteStatus.put(0, true);
-        favouriteStatus.put(3, true);*/
-
         // Configura el icono inicial basado en el estado almacenado en SparseBooleanArray
         if (favouriteStatus.get(position, false)) {
             imageViewFavouritePlaceMark.setImageResource(R.drawable.icon_heart_relleno);
@@ -73,12 +81,27 @@ public class ListaDestinosAdapter extends BaseAdapter {
 
         imageViewFavouritePlaceMark.setOnClickListener(v -> {
             boolean isFavourite = favouriteStatus.get(position, false);
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("favorites").child(idUsuario).child(destino.getId());
+
             if (!isFavourite) {
                 imageViewFavouritePlaceMark.setImageResource(R.drawable.icon_heart_relleno);
                 favouriteStatus.put(position, true);
+
+                reference.setValue(true).addOnSuccessListener(aVoid -> {
+                    Toast.makeText(context, "Destino añadido a favoritos", Toast.LENGTH_SHORT).show();
+                }).addOnFailureListener(e -> {
+                    Toast.makeText(context, "Error al añadir destino a favoritos", Toast.LENGTH_SHORT).show();
+                });
+
             } else {
                 imageViewFavouritePlaceMark.setImageResource(R.drawable.icon_heart_contorno);
                 favouriteStatus.put(position, false);
+
+                reference.removeValue().addOnSuccessListener(aVoid -> {
+                    Toast.makeText(context, "Destino eliminado de favoritos", Toast.LENGTH_SHORT).show();
+                }).addOnFailureListener(e -> {
+                    Toast.makeText(context, "Error al eliminar destino de favoritos", Toast.LENGTH_SHORT).show();
+                });
             }
         });
 
@@ -89,13 +112,41 @@ public class ListaDestinosAdapter extends BaseAdapter {
         imageView.setOnClickListener(v -> {
             Intent placeReviewActivity = new Intent(context, PlaceReviewActivity.class);
             placeReviewActivity.putExtra("imageUrl", destino.getImg_url());
+            placeReviewActivity.putExtra("placeName", destino.getName());
+            placeReviewActivity.putExtra("placeLocation", destino.getLocation());
+            placeReviewActivity.putExtra("placeDescription", destino.getDescription());
             context.startActivity(placeReviewActivity);
         });
 
         textViewPlaceName.setText(destino.getName());
-        textViewPlaceDescription.setText("");
+        textViewPlaceDescription.setText(destino.getDescription());
         textViewPlaceLocation.setText(destino.getLocation());
 
         return convertView;
+    }
+
+    private void checkFavourites() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("favorites").child(idUsuario);
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (int i = 0; i < listaDestinos.size(); i++) {
+                    ListaDestinos destino = listaDestinos.get(i);
+                    if (dataSnapshot.hasChild(destino.getId())) {
+                        favouriteStatus.put(i, true);
+                    } else {
+                        favouriteStatus.put(i, false);
+                    }
+                }
+                notifyDataSetChanged(); // Actualiza la vista después de verificar favoritos
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Maneja el error
+                Toast.makeText(context, "Error al verificar favoritos", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

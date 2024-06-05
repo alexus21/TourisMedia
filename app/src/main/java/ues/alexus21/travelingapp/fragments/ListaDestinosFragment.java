@@ -77,10 +77,11 @@ public class ListaDestinosFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listaDestinos.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Log.d("ListaDestinosFragment", "DataSnapshot: " + dataSnapshot.getKey());
                     ListaDestinos destino = dataSnapshot.getValue(ListaDestinos.class);
                     listaDestinos.add(destino);
                 }
-                adapter = new ListaDestinosAdapter(listaDestinos, requireContext());
+                adapter = new ListaDestinosAdapter(listaDestinos, requireContext(), localUserDAO.getUserId());
                 ltsDestinosTuristicos.setAdapter(adapter);
             }
 
@@ -118,16 +119,19 @@ public class ListaDestinosFragment extends Fragment {
                 String imageUrl = uri.toString();
                 String destinationId = UUID.randomUUID().toString();
 
+                String uuid = FirebaseDatabase.getInstance().getReference().push().getKey();
+
                 DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("destination");
 
                 ListaDestinos destino = new ListaDestinos(
                         destinoAux.getDescription(),
                         imageUrl,
                         destinoAux.getLocation(),
-                        destinoAux.getName()
+                        destinoAux.getName(),
+                        uuid
                 );
 
-                databaseRef.child(destinationId).setValue(destino).addOnSuccessListener(aVoid -> {
+                databaseRef.child(uuid).setValue(destino).addOnSuccessListener(aVoid -> {
                     // Registro creado exitosamente
                     Log.d("Firebase", "Database entry created successfully");
                 }).addOnFailureListener(e -> {
