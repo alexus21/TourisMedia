@@ -64,7 +64,7 @@ public class PlaceReviewActivity extends AppCompatActivity {
             Toast.makeText(this, "URL de la imagen no encontrada", Toast.LENGTH_SHORT).show();
         }
 
-        textViewDestinyName.setText("Nombre del destino: " + getIntent().getStringExtra("imageUrl"));
+        textViewDestinyName.setText("Nombre del destino: " + getIntent().getStringExtra("placeName"));
         textViewDescription.setText(getIntent().getStringExtra("placeDescription"));
         textViewLocation.setText("Ubicación: " + getIntent().getStringExtra("placeLocation"));
 
@@ -75,7 +75,6 @@ public class PlaceReviewActivity extends AppCompatActivity {
             Toast.makeText(PlaceReviewActivity.this, "Rating: " + ratingBar.getRating(), Toast.LENGTH_SHORT).show();
 
             String comments = editTextAddComments.getText().toString();
-            editTextAddComments.setText(getIntent().getStringExtra("imageUrl"));
             // Sin evento de comentario vacío, porque puede ser que el usuario ingrese solo el rating sin el comentario
         });
 

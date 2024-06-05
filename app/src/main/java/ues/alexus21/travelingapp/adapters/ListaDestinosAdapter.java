@@ -119,7 +119,7 @@ public class ListaDestinosAdapter extends BaseAdapter {
         });
 
         textViewPlaceName.setText(destino.getName());
-        textViewPlaceDescription.setText(destino.getDescription());
+        textViewPlaceDescription.setText("");
         textViewPlaceLocation.setText(destino.getLocation());
 
         return convertView;
@@ -133,11 +133,7 @@ public class ListaDestinosAdapter extends BaseAdapter {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (int i = 0; i < listaDestinos.size(); i++) {
                     ListaDestinos destino = listaDestinos.get(i);
-                    if (dataSnapshot.hasChild(destino.getId())) {
-                        favouriteStatus.put(i, true);
-                    } else {
-                        favouriteStatus.put(i, false);
-                    }
+                    favouriteStatus.put(i, dataSnapshot.hasChild(destino.getId()));
                 }
                 notifyDataSetChanged(); // Actualiza la vista después de verificar favoritos
             }
