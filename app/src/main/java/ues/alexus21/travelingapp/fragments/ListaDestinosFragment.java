@@ -106,7 +106,7 @@ public class ListaDestinosFragment extends Fragment {
         return root;
     }
 
-    private void uploadToFirebaseStorage(File file) {
+    private void uploadToFirebaseStorage(File file, ListaDestinos destinoAux) {
         Uri fileUri = Uri.fromFile(file);
         StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("images").child(fileUri.getLastPathSegment());
         UploadTask uploadTask = storageRef.putFile(fileUri);
@@ -121,10 +121,10 @@ public class ListaDestinosFragment extends Fragment {
                 DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("destination");
 
                 ListaDestinos destino = new ListaDestinos(
-                        "Descripción del lugar", // Aquí puedes obtener la descripción de alguna fuente
+                        destinoAux.getDescription(),
                         imageUrl,
-                        "Localización geográfica", // Aquí puedes obtener la localización de alguna fuente
-                        fileUri.getLastPathSegment().replace(".jpg", "").replace(".png", "") // Usando el nombre del archivo como nombre del lugar
+                        destinoAux.getLocation(),
+                        destinoAux.getName()
                 );
 
                 databaseRef.child(destinationId).setValue(destino).addOnSuccessListener(aVoid -> {
@@ -147,8 +147,10 @@ public class ListaDestinosFragment extends Fragment {
         AssetManager assetManager = requireContext().getAssets();
         try {
             String[] files = assetManager.list("img");
+            ArrayList<ListaDestinos> destinos = getDestinos();
             if (files != null) {
                 mostrarMensaje("Número de imágenes encontradas: " + files.length);
+                int i = 0;
                 for (String filename : files) {
                     InputStream inputStream = assetManager.open("img/" + filename);
                     File tempFile = new File(requireContext().getCacheDir(), filename);
@@ -167,7 +169,8 @@ public class ListaDestinosFragment extends Fragment {
                     inputStream.close();
 
                     // Subir archivo a Firebase Storage
-                    uploadToFirebaseStorage(tempFile);
+                    uploadToFirebaseStorage(tempFile, destinos.get(i));
+                    i++;
                 }
             } else {
                 mostrarMensaje("No se encontraron imágenes en la carpeta de assets/img");
@@ -193,5 +196,46 @@ public class ListaDestinosFragment extends Fragment {
 
     private void mostrarMensaje(String mensaje) {
         Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show();
+    }
+
+    private ArrayList<ListaDestinos> getDestinos() {
+
+        ArrayList<ListaDestinos> listaDestinos = new ArrayList<>();
+
+        //Destino 1
+        listaDestinos.add(new ListaDestinos(
+                "Parte importante de Estambul, desprendiendo belleza por dentro y por " +
+                        "fuera",
+                "Estambul",
+                "Mezquita azul"));
+
+        listaDestinos.add(new ListaDestinos("Es una auténtica joya de la naturaleza y uno de los " +
+                "ríos mas bonitos del mundo", "Colombia", "Caño Cristales"));
+
+        listaDestinos.add(new ListaDestinos("Es uo de los desiertos más grandes de este pais",
+                "Colombia",
+                "Desierto de la Tatacoa"));
+
+        listaDestinos.add(new ListaDestinos("Una muralla que se construyó hace miles de años para " +
+                "defender al imperio chino de constantes invasiones, y que ahora se encuentra entre " +
+                "las 7 maravillas del mundo moderno",
+                "China",
+                "La Gran Muralla China"));
+
+        listaDestinos.add(new ListaDestinos("Estas impresionantes cataratas se encuentran en la " +
+                "frontera natural entre Zambia y Zimbawe, y están consideradas como una de las más " +
+                "grandes del mundo",
+                "Zambia",
+                "Cataratas Victoria"));
+
+        listaDestinos.add(new ListaDestinos("Una de las 7 maravillas del mundo actualmente, es una " +
+                "impresionante ciudadela inca con templos, andenes y canales de agua",
+                "Perú", "Macchu Picchu"));
+
+        listaDestinos.add(new ListaDestinos("¿Qué es un lugar turístico sino una oportunidad de " +
+                "vivir una cultura completamente distinta de primera mano?",
+                "Dubai", "Dubai"));
+
+        return listaDestinos;
     }
 }

@@ -32,7 +32,9 @@ public class HomeActivity extends AppCompatActivity {
     private ILocalUserDAO localUserDAO;
     CircleImageView imgUsuarioLogeado;
 
-    Fragment listaDestinosFragment, favoritosFragment;
+    String nameApp = "";
+
+    Fragment listaDestinosFragment, favoritosFragment, mainFragment;
     FragmentContainerView fragmentContainerView;
     BottomNavigationView bottomNavigationView;
     TextView lblnameapp;
@@ -56,6 +58,7 @@ public class HomeActivity extends AppCompatActivity {
 
         listaDestinosFragment = new ListaDestinosFragment();
         favoritosFragment = new FavoritosFragment();
+        mainFragment = null;
 
         fragmentContainerView = findViewById(R.id.fragmentContainerView);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -75,20 +78,30 @@ public class HomeActivity extends AppCompatActivity {
     private boolean handleNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.navPrincipal:
-                getSupportFragmentManager().beginTransaction()
+                mainFragment = new ListaDestinosFragment();
+                /*getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragmentContainerView, listaDestinosFragment)
                         .commit();
-                lblnameapp.setText("Destinos");
-                return true;
+                lblnameapp.setText("Destinos");*/
+                nameApp = "Destinos";
+                break;
             case R.id.navFavoritos:
-                getSupportFragmentManager().beginTransaction()
+                mainFragment = new FavoritosFragment();
+                /*getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragmentContainerView, favoritosFragment)
                         .commit();
-                lblnameapp.setText("Mis Favoritos");
-                return true;
-            default:
-                return false;
+                lblnameapp.setText("Mis Favoritos");*/
+                nameApp = "Mis Favoritos";
+                break;
         }
+
+        if (mainFragment != null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainerView, mainFragment)
+                    .commit();
+            lblnameapp.setText(nameApp);
+        }
+        return true;
     }
 
     @SuppressLint("SetTextI18n")

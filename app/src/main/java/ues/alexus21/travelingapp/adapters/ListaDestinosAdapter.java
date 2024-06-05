@@ -3,6 +3,7 @@ package ues.alexus21.travelingapp.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,13 +23,14 @@ public class ListaDestinosAdapter extends BaseAdapter {
 
     ArrayList<ListaDestinos> listaDestinos;
     Context context;
-    TextView textViewPlaceName, textViewPlaceDescription, textViewPlaceLocation;
-    ImageView imageViewFavouritePlaceMark;
+    SparseBooleanArray favouriteStatus;
 
     public ListaDestinosAdapter(ArrayList<ListaDestinos> listaDestinos, Context context) {
         this.listaDestinos = listaDestinos;
         this.context = context;
+        this.favouriteStatus = new SparseBooleanArray();
     }
+
     @Override
     public int getCount() {
         return listaDestinos.size();
@@ -41,43 +43,58 @@ public class ListaDestinosAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @SuppressLint({"InflateParams", "UseCompatLoadingForDrawables"})
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final boolean[] heartFlag = {false}; // Bandera para saber si el lugar es favorito
-
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_adapter_lista_destinos, null);
         }
 
         ImageView imageView = convertView.findViewById(R.id.imageView);
-        textViewPlaceName = convertView.findViewById(R.id.textViewPlaceName);
-        textViewPlaceDescription = convertView.findViewById(R.id.textViewPlaceDescription);
-        textViewPlaceLocation = convertView.findViewById(R.id.textViewPlaceLocation);
-        imageViewFavouritePlaceMark = convertView.findViewById(R.id.imageViewFavouritePlaceMark);
+        TextView textViewPlaceName = convertView.findViewById(R.id.textViewPlaceName);
+        TextView textViewPlaceDescription = convertView.findViewById(R.id.textViewPlaceDescription);
+        TextView textViewPlaceLocation = convertView.findViewById(R.id.textViewPlaceLocation);
+        ImageView imageViewFavouritePlaceMark = convertView.findViewById(R.id.imageViewFavouritePlaceMark);
+
+        ListaDestinos destino = listaDestinos.get(position);
+
+        /*favouriteStatus.put(0, true);
+        favouriteStatus.put(3, true);*/
+
+        // Configura el icono inicial basado en el estado almacenado en SparseBooleanArray
+        if (favouriteStatus.get(position, false)) {
+            imageViewFavouritePlaceMark.setImageResource(R.drawable.icon_heart_relleno);
+        } else {
+            imageViewFavouritePlaceMark.setImageResource(R.drawable.icon_heart_contorno);
+        }
 
         imageViewFavouritePlaceMark.setOnClickListener(v -> {
-            if(!heartFlag[0]) {
+            boolean isFavourite = favouriteStatus.get(position, false);
+            if (!isFavourite) {
                 imageViewFavouritePlaceMark.setImageResource(R.drawable.icon_heart_relleno);
-                heartFlag[0] = true;
+                favouriteStatus.put(position, true);
             } else {
                 imageViewFavouritePlaceMark.setImageResource(R.drawable.icon_heart_contorno);
-                heartFlag[0] = false;
+                favouriteStatus.put(position, false);
             }
         });
 
         Glide.with(context)
-                .load(listaDestinos.get(position).getImg_url())
+                .load(destino.getImg_url())
                 .into(imageView);
 
         imageView.setOnClickListener(v -> {
             Intent placeReviewActivity = new Intent(context, PlaceReviewActivity.class);
-            placeReviewActivity.putExtra("imageUrl", listaDestinos.get(position).getImg_url());
+            placeReviewActivity.putExtra("imageUrl", destino.getImg_url());
             context.startActivity(placeReviewActivity);
         });
+
+        textViewPlaceName.setText(destino.getName());
+        textViewPlaceDescription.setText("");
+        textViewPlaceLocation.setText(destino.getLocation());
 
         return convertView;
     }

@@ -42,6 +42,7 @@ public class PlaceReviewActivity extends AppCompatActivity {
         editTextAddComments = findViewById(R.id.editTextAddComments);
 
         ratingBar.setNumStars(5);
+        ratingBar.setStepSize(1.0f);
 
         imgAtras.setOnClickListener(v -> {
             Intent listaDestinosActivity = new Intent(PlaceReviewActivity.this, HomeActivity.class);

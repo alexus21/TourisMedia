@@ -170,7 +170,7 @@
             android:progressTintMode="src_in"
             android:secondaryProgressTint="@color/grey"
             android:secondaryProgressTintMode="src_in"
-            android:stepSize="0.1" />
+            android:stepSize="1.0" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,12 @@ public class ListaDestinos {
     public ListaDestinos() {
     }
 
+    public ListaDestinos(String description, String location, String name) {
+        this.description = description;
+        this.location = location;
+        this.name = name;
+    }
+
     public ListaDestinos(String description, String img_url, String location, String name) {
         this.description = description;
         this.img_url = img_url;
