@@ -28,7 +28,7 @@
         android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/bg_boton_agregardestino"
         android:fontFamily="@font/comfortaa_bold"
         android:text="Añadir calificación"
@@ -58,7 +58,7 @@
             android:layout_marginBottom="15dp"
             android:fontFamily="@font/comfortaa_regular"
             android:text="Nombre del destino: "
-            android:textColor="@color/moonstone_blue"
+            android:textColor="#315C5C"
             android:textSize="18sp"
             tools:ignore="HardcodedText" />
 
@@ -69,7 +69,7 @@
             android:layout_marginBottom="15dp"
             android:fontFamily="@font/comfortaa_regular"
             android:text="Descripción: "
-            android:textColor="@color/moonstone_blue"
+            android:textColor="#315C5C"
             android:textSize="18sp"
             tools:ignore="HardcodedText" />
 
@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/comfortaa_regular"
             android:text="Ubicación: "
-            android:textColor="@color/moonstone_blue"
+            android:textColor="#315C5C"
             android:textSize="18sp"
             tools:ignore="HardcodedText" />
     </LinearLayout>
@@ -88,9 +88,10 @@
         android:id="@+id/linearLayout2"
         android:layout_width="364dp"
         android:layout_height="69dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="12dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.586"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         tools:ignore="MissingConstraints">
@@ -116,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/comfortaa_regular"
                 android:inputType="textMultiLine"
-                android:textColor="@color/moonstone_blue"
+                android:textColor="#315C5C"
                 android:textSize="18sp"
                 app:passwordToggleEnabled="true" />
 
@@ -128,7 +129,7 @@
         android:id="@+id/linearLayout3"
         android:layout_width="363dp"
         android:layout_height="84dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="16dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.566"
@@ -142,7 +143,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/comfortaa_regular"
             android:text=" Calificación:"
-            android:textColor="@color/moonstone_blue"
+            android:textColor="#315C5C"
             android:textSize="18sp"
             tools:ignore="HardcodedText" />
 
@@ -158,7 +159,7 @@
             android:progressTintMode="src_in"
             android:secondaryProgressTint="@color/grey"
             android:secondaryProgressTintMode="src_in"
-            android:stepSize="1.0" />
+            android:stepSize="0.1" />
 
     </LinearLayout>
 
@@ -171,4 +172,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/textViewShowCommentsAndReviewList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mostrar comentarios"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/white"
+        android:fontFamily="@font/comfortaa_regular"
+        app:layout_constraintTop_toBottomOf="@+id/btnSetRating"
+        tools:ignore="HardcodedText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

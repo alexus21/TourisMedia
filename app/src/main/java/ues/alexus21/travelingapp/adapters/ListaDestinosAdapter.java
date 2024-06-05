@@ -115,6 +115,7 @@ public class ListaDestinosAdapter extends BaseAdapter {
             placeReviewActivity.putExtra("placeName", destino.getName());
             placeReviewActivity.putExtra("placeLocation", destino.getLocation());
             placeReviewActivity.putExtra("placeDescription", destino.getDescription());
+            placeReviewActivity.putExtra("placeId", destino.getId());
             context.startActivity(placeReviewActivity);
         });
 
