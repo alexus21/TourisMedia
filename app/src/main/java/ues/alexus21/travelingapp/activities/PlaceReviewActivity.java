@@ -23,7 +23,7 @@ import ues.alexus21.travelingapp.R;
 
 public class PlaceReviewActivity extends AppCompatActivity {
 
-    CircleImageView imgDestino;
+    ImageView imgDestino;
     ImageView imgAtras;
     RatingBar ratingBar;
     Button btnSetRating;
