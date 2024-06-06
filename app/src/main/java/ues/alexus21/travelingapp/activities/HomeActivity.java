@@ -10,6 +10,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -41,12 +42,17 @@ public class HomeActivity extends AppCompatActivity {
     TextView lblnameapp;
     FloatingActionButton btnAgregarDestinos;
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.home), (v, insets) -> {
+            Insets systembars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systembars.left, systembars.top, systembars.right, systembars.bottom);
+            return insets;
+        });
 
         // Obtener referencia a la base de datos de Firebase
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("users");
@@ -88,19 +94,11 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.navPrincipal:
                 btnAgregarDestinos.show();
                 mainFragment = new ListaDestinosFragment();
-                /*getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentContainerView, listaDestinosFragment)
-                        .commit();
-                lblnameapp.setText("Destinos");*/
                 nameApp = "Destinos";
                 break;
             case R.id.navFavoritos:
                 btnAgregarDestinos.hide();
                 mainFragment = new FavoritosFragment();
-                /*getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentContainerView, favoritosFragment)
-                        .commit();
-                lblnameapp.setText("Mis Favoritos");*/
                 nameApp = "Mis Favoritos";
                 break;
         }

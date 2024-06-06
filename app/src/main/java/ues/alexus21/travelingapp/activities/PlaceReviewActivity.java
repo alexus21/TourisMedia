@@ -83,7 +83,7 @@ public class PlaceReviewActivity extends AppCompatActivity {
         textViewShowPublishedBy.setText("Publicado por: " + publishedEmail);
 
         ratingBar.setNumStars(5);
-        ratingBar.setStepSize(0.1f);
+        ratingBar.setStepSize(1.0f);
 
         imgAtras.setOnClickListener(v -> {
             Intent listaDestinosActivity = new Intent(PlaceReviewActivity.this, HomeActivity.class);

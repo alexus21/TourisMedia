@@ -22,10 +22,12 @@ public class ListaFavoritosAdapter extends BaseAdapter {
     Context context;
     TextView textViewPlaceName, textViewPlaceDescription, textViewPlaceLocation;
     ImageView imageViewFavouritePlaceMark;
+    String idUsuario;
 
-    public ListaFavoritosAdapter(ArrayList<ListaDestinos> listaDestinos, Context context) {
+    public ListaFavoritosAdapter(ArrayList<ListaDestinos> listaDestinos, Context context, String idUsuario) {
         this.listaDestinos = listaDestinos;
         this.context = context;
+        this.idUsuario = idUsuario;
     }
     @Override
     public int getCount() {

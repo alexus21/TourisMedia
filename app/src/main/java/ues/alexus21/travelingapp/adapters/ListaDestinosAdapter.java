@@ -3,6 +3,7 @@ package ues.alexus21.travelingapp.adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,7 +82,9 @@ public class ListaDestinosAdapter extends BaseAdapter {
 
         imageViewFavouritePlaceMark.setOnClickListener(v -> {
             boolean isFavourite = favouriteStatus.get(position, false);
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("favorites").child(idUsuario).child(destino.getId());
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("favorites").child(idUsuario).child(destino.getId_destination());
+            Log.d("ListaDestinosAdapter", "ID destino: " + destino.getId());
+            Log.d("ListaDestinosAdapter", "ID usuario: " + idUsuario);
 
             if (!isFavourite) {
                 imageViewFavouritePlaceMark.setImageResource(R.drawable.icon_heart_relleno);
@@ -156,7 +159,8 @@ public class ListaDestinosAdapter extends BaseAdapter {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (int i = 0; i < listaDestinos.size(); i++) {
                     ListaDestinos destino = listaDestinos.get(i);
-                    favouriteStatus.put(i, dataSnapshot.hasChild(destino.getId()));
+                    favouriteStatus.put(i, dataSnapshot.hasChild(destino.getId_destination()));
+                    Log.d("Status", "ss: " + favouriteStatus.get(i));
                 }
                 notifyDataSetChanged(); // Actualiza la vista después de verificar favoritos
             }

@@ -173,20 +173,23 @@ public class NuevoPostActivity extends AppCompatActivity {
         String placeLocation = editTextPlaceLocation.getText().toString();
         String userId = localUserDAO.getUserId();
 
+        // Obtener una referencia a Firebase Database
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
+        String uuid = reference.push().getKey();
+
         // Crear un nuevo destino
         ListaDestinos destino = new ListaDestinos(
                 placeDescription,
                 imageUrl,
                 placeLocation,
                 placeName,
-                userId
+                userId,
+                uuid
         );
 
-        // Obtener una referencia a Firebase Database
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-
         // Insertar destino en Firebase
-        reference.child("destination").push().setValue(destino)
+        reference.child("destination").child(uuid).setValue(destino)
                 .addOnSuccessListener(aVoid -> {
                     Log.d("Firebase", "Database entry created successfully");
                     mostrarMensaje("Publicación exitosa");

@@ -77,9 +77,10 @@ public class ListaDestinosFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listaDestinos.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Log.d("ListaDestinosFragment", "DataSnapshot: " + dataSnapshot.getKey());
+                    Log.d("ListaDestinosFragment", "Destino full: " + dataSnapshot.getKey());
                     ListaDestinos destino = dataSnapshot.getValue(ListaDestinos.class);
                     listaDestinos.add(destino);
+                    Log.d("ListaDestinosFragment", "Destino: " + destino.getId_destination());
                 }
                 adapter = new ListaDestinosAdapter(listaDestinos, requireContext(), localUserDAO.getUserId());
                 ltsDestinosTuristicos.setAdapter(adapter);
@@ -102,7 +103,7 @@ public class ListaDestinosFragment extends Fragment {
             Log.d("ListaDestinosFragment", "Estado: " + user.getIsLogged());
         }
 
-        checkAndUploadImages();
+        /*checkAndUploadImages();*/
 
         return root;
     }
@@ -128,6 +129,7 @@ public class ListaDestinosFragment extends Fragment {
                         imageUrl,
                         destinoAux.getLocation(),
                         destinoAux.getName(),
+                        uuid,
                         uuid
                 );
 
@@ -207,7 +209,7 @@ public class ListaDestinosFragment extends Fragment {
         ArrayList<ListaDestinos> listaDestinos = new ArrayList<>();
 
         //Destino 1
-        listaDestinos.add(new ListaDestinos(
+        /*listaDestinos.add(new ListaDestinos(
                 "Parte importante de Estambul, desprendiendo belleza por dentro y por " +
                         "fuera",
                 "Estambul",
@@ -238,7 +240,7 @@ public class ListaDestinosFragment extends Fragment {
 
         listaDestinos.add(new ListaDestinos("¿Qué es un lugar turístico sino una oportunidad de " +
                 "vivir una cultura completamente distinta de primera mano?",
-                "Dubai", "Dubai"));
+                "Dubai", "Dubai"));*/
 
         return listaDestinos;
     }
