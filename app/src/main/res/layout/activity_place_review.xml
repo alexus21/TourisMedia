@@ -9,6 +9,13 @@
 
     <!-- Agregar destinos turisticos -->
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/imgAtras"
         android:layout_width="40dp"
@@ -43,13 +50,23 @@
         android:id="@+id/linearLayout"
         android:layout_width="358dp"
         android:layout_height="184dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="30dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgDestino"
         tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/textViewShowPublishedBy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="@font/comfortaa_regular"
+            android:text="Publicado por: "
+            android:textColor="#315C5C"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textViewDestinyName"
@@ -65,7 +82,7 @@
         <TextView
             android:id="@+id/textViewDescription"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
+            android:layout_height="51dp"
             android:layout_marginBottom="15dp"
             android:fontFamily="@font/comfortaa_regular"
             android:text="Descripción: "
@@ -88,7 +105,7 @@
         android:id="@+id/linearLayout2"
         android:layout_width="364dp"
         android:layout_height="69dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="25dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.586"
@@ -185,4 +202,5 @@
         android:fontFamily="@font/comfortaa_regular"
         app:layout_constraintTop_toBottomOf="@+id/btnSetRating"
         tools:ignore="HardcodedText" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

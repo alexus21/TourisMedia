@@ -46,7 +46,7 @@ public class PlaceReviewActivity extends AppCompatActivity {
     ImageView imgAtras;
     RatingBar ratingBar;
     Button btnSetRating;
-    TextView textViewDestinyName, textViewDescription, textViewLocation, textViewShowCommentsAndReviewList;
+    TextView textViewDestinyName, textViewDescription, textViewLocation, textViewShowCommentsAndReviewList, textViewShowPublishedBy;
     EditText editTextAddComments;
     SpannableString spannableString;
     DatabaseReference reference;
@@ -74,9 +74,13 @@ public class PlaceReviewActivity extends AppCompatActivity {
         textViewLocation = findViewById(R.id.textViewLocation);
         editTextAddComments = findViewById(R.id.editTextAddComments);
         textViewShowCommentsAndReviewList = findViewById(R.id.textViewShowCommentsAndReviewList);
+        textViewShowPublishedBy = findViewById(R.id.textViewShowPublishedBy);
         localUserDAO = DatabaseSingleton.getDatabase(this).localUserDAO();
 
         createSpannableString("Mostrar comentarios", textViewShowCommentsAndReviewList, ReviewListActivity.class);
+
+        String publishedEmail = getIntent().getStringExtra("publisherBy");
+        textViewShowPublishedBy.setText("Publicado por: " + publishedEmail);
 
         ratingBar.setNumStars(5);
         ratingBar.setStepSize(0.1f);

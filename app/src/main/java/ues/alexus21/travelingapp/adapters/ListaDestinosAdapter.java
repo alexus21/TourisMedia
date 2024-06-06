@@ -111,7 +111,7 @@ public class ListaDestinosAdapter extends BaseAdapter {
 
         FirebaseDataCollection.getEmailFromDestinationId(destino.getId(), email -> {
             if (email != null) {
-                textViewPublishedBy.setText("Publicación de: " + email.split("@")[0]);
+                textViewPublishedBy.setText("Publicado por: " + email.split("@")[0]);
             } else {
                 textViewPublishedBy.setText("Publicación anónima");
             }
@@ -121,15 +121,28 @@ public class ListaDestinosAdapter extends BaseAdapter {
 //        textViewPublishedBy.setText("Anónimo");
 
         imageView.setOnClickListener(v -> {
-            Intent placeReviewActivity = new Intent(context, PlaceReviewActivity.class);
 
-            placeReviewActivity.putExtra("imageUrl", destino.getImg_url());
-            placeReviewActivity.putExtra("placeName", destino.getName());
-            placeReviewActivity.putExtra("placeLocation", destino.getLocation());
-            placeReviewActivity.putExtra("placeDescription", destino.getDescription());
-            placeReviewActivity.putExtra("placeId", destino.getId());
+            FirebaseDataCollection.getEmailFromDestinationId(destino.getId(), email -> {
+                if (email != null) {
+                    String publishedBy = email.split("@")[0];
+                    textViewPublishedBy.setText("Publicado por: " + publishedBy);
 
-            context.startActivity(placeReviewActivity);
+                    // Pasar el email a la siguiente actividad
+                    Intent placeReviewActivity = new Intent(context, PlaceReviewActivity.class);
+                    placeReviewActivity.putExtra("publisherBy", publishedBy);
+
+                    // Agregar otros extras si es necesario
+                    placeReviewActivity.putExtra("imageUrl", destino.getImg_url());
+                    placeReviewActivity.putExtra("placeName", destino.getName());
+                    placeReviewActivity.putExtra("placeLocation", destino.getLocation());
+                    placeReviewActivity.putExtra("placeDescription", destino.getDescription());
+                    placeReviewActivity.putExtra("placeId", destino.getId());
+
+                    context.startActivity(placeReviewActivity);
+                } else {
+                    textViewPublishedBy.setText("Publicación anónima");
+                }
+            });
         });
 
         return convertView;
