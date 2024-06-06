@@ -6,7 +6,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.Rating;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -27,8 +26,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Comment;
 
@@ -37,6 +42,8 @@ import ues.alexus21.travelingapp.DatabaseSingleton;
 import ues.alexus21.travelingapp.R;
 import ues.alexus21.travelingapp.comments.Comments;
 import ues.alexus21.travelingapp.localstorage.ILocalUserDAO;
+import ues.alexus21.travelingapp.models.Comentarios;
+import ues.alexus21.travelingapp.models.Rating;
 import ues.alexus21.travelingapp.ratings.Ratings;
 import ues.alexus21.travelingapp.validations.NetworkChecker;
 
@@ -65,6 +72,8 @@ public class PlaceReviewActivity extends AppCompatActivity {
         String imageId = getIntent().getStringExtra("placeId");
         Log.d("PlaceReviewActivity", "Image ID: " + imageId);
 
+        String destinationId = getIntent().getStringExtra("destinationId");
+
         imgDestino = findViewById(R.id.imgDestino);
         imgAtras = findViewById(R.id.imgAtras);
         ratingBar = findViewById(R.id.ratingBar);
@@ -84,6 +93,31 @@ public class PlaceReviewActivity extends AppCompatActivity {
 
         ratingBar.setNumStars(5);
         ratingBar.setStepSize(1.0f);
+        ratingBar.setRating(1.0f);
+
+        String firebaseUserId = localUserDAO.getUserId();
+        Log.d("Tag", "Rating método: " + getRatingFirebase(destinationId, firebaseUserId));
+        Log.d("Tag", "id destino: " + destinationId);
+        Log.d("Tag", "id usuario: " + firebaseUserId);
+
+        getRatingFirebase(destinationId, firebaseUserId).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Float rating = task.getResult();
+                Log.d("Tag", "valor retornado: " + rating);
+                if (rating <= 5) {
+                    ratingBar.setRating(rating);
+                }
+            } else {
+                Log.e("Tag", "Error al obtener el rating", task.getException());
+                Toast.makeText(PlaceReviewActivity.this, "Error al obtener el rating", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        ratingBar.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
+            if (rating < 1.0f) {
+                ratingBar.setRating(1.0f);
+            }
+        });
 
         imgAtras.setOnClickListener(v -> {
             Intent listaDestinosActivity = new Intent(PlaceReviewActivity.this, HomeActivity.class);
@@ -108,14 +142,13 @@ public class PlaceReviewActivity extends AppCompatActivity {
             String comments = editTextAddComments.getText().toString().trim();
             int ratingValue = (int) ratingBar.getRating();
 
-            if(NetworkChecker.checkInternetConnection(this)) {
+            if (NetworkChecker.checkInternetConnection(this)) {
                 mostrarMensaje("No hay conexión a internet");
                 return;
             }
 
-            String firebaseUserId = localUserDAO.getUserId();
-            saveComments(comments, firebaseUserId, imageId);
-            saveRating(ratingValue, firebaseUserId, imageId);
+            saveComments(comments, firebaseUserId, imageId, destinationId);
+            saveRating(ratingValue, firebaseUserId, imageId, destinationId);
 
             Intent homeIntent = new Intent(PlaceReviewActivity.this, HomeActivity.class);
             startActivity(homeIntent);
@@ -152,37 +185,148 @@ public class PlaceReviewActivity extends AppCompatActivity {
         item.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
-    void saveComments(String comments, String userFirebaseId, String imageId){
+    void saveComments(String comments, String userFirebaseId, String imageId, String destinationId) {
         reference = FirebaseDatabase.getInstance().getReference();
 
-        Comments userComments = new Comments(comments, userFirebaseId, imageId);
+        /*Comments userComments = new Comments(comments, userFirebaseId, imageId);*/
+        Comentarios comentario = new Comentarios(comments, userFirebaseId);
         System.out.println("ImageID: " + imageId);
 
-        reference.child("comments").push().setValue(userComments)
+        reference.child("comments").child(destinationId).push().setValue(comentario)
                 .addOnSuccessListener(aVoid -> {
                     mostrarMensaje("Comentario guardado correctamente");
                 })
                 .addOnFailureListener(e -> {
                     mostrarMensaje("Error al guardar comentario");
                 });
+
+        /*reference.child("comments").push().setValue(userComments)
+                .addOnSuccessListener(aVoid -> {
+                    mostrarMensaje("Comentario guardado correctamente");
+                })
+                .addOnFailureListener(e -> {
+                    mostrarMensaje("Error al guardar comentario");
+                });*/
     }
 
-    void saveRating(float rating, String userFirebaseId, String imageId){
+    void saveRating(float rating, String userFirebaseId, String imageId, String destinationId) {
         reference = FirebaseDatabase.getInstance().getReference();
 
-        Ratings userRating = new Ratings(rating, userFirebaseId, imageId);
+        /*Ratings userRating = new Ratings(rating, userFirebaseId, imageId);*/
+        Rating ratingUser = new Rating(userFirebaseId, rating);
         System.out.println("ImageID: " + imageId);
 
-        reference.child("ratings").push().setValue(userRating)
+        getRatingFirebase(destinationId, userFirebaseId).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Float ratingValue = task.getResult();
+                Log.d("Tag", "valor retornado: " + ratingValue);
+                if (ratingValue <= 5) {
+                    mostrarMensaje("Ya has calificado este destino");
+                    reference.child("ratings").child(destinationId)
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                        Rating ratingUser = dataSnapshot.getValue(Rating.class);
+                                        ratingUser.setRating(rating);
+                                        if (ratingUser.getId_user().equals(userFirebaseId)) {
+                                            Log.d("Tag", "Key de rating: " + dataSnapshot.getKey());
+                                            DatabaseReference referenceRating = FirebaseDatabase.getInstance().getReference();
+                                            referenceRating.child("ratings").child(destinationId)
+                                                    .child(dataSnapshot.getKey()).setValue(ratingUser)
+                                                    .addOnSuccessListener(aVoid -> {
+                                                        mostrarMensaje("Comentario guardado correctamente");
+                                                    });
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    mostrarMensaje("Error al guardar comentario");
+                                }
+                            });
+                } else {
+                    reference.child("ratings").child(destinationId).push().setValue(ratingUser)
+                            .addOnSuccessListener(aVoid -> {
+                                mostrarMensaje("Comentario guardado correctamente");
+                            })
+                            .addOnFailureListener(e -> {
+                                mostrarMensaje("Error al guardar comentario");
+                            });
+                }
+            }
+        });
+
+
+        /*reference.child("ratings").push().setValue(userRating)
                 .addOnSuccessListener(aVoid -> {
                     mostrarMensaje("Comentario guardado correctamente");
                 })
                 .addOnFailureListener(e -> {
                     mostrarMensaje("Error al guardar comentario");
-                });
+                });*/
     }
 
     private void mostrarMensaje(String mensaje) {
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
+
+    /*public Task<Float> getRatingFirebase(String destinationId, String userId) {
+        TaskCompletionSource<Float> tcs = new TaskCompletionSource<>();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
+        reference.child("ratings").child(destinationId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                float value = 6.0f;
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Rating rating = dataSnapshot.getValue(Rating.class);
+                    if (rating.getId_user().equals(userId)) {
+                        value = rating.getRating();
+                        break;
+                    }
+                }
+                tcs.setResult(value);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                tcs.setException(error.toException());
+            }
+        });
+
+        return tcs.getTask();
+    }*/
+
+    public Task<Float> getRatingFirebase(String destinationId, String userId) {
+    TaskCompletionSource<Float> tcs = new TaskCompletionSource<>();
+    DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+    ValueEventListener listener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            float value = 6.0f;
+            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                Rating rating = dataSnapshot.getValue(Rating.class);
+                if (rating.getId_user().equals(userId)) {
+                    value = rating.getRating();
+                    break;
+                }
+            }
+            tcs.setResult(value);
+            reference.child("ratings").child(destinationId).removeEventListener(this);
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+            tcs.setException(error.toException());
+        }
+    };
+
+    reference.child("ratings").child(destinationId).addValueEventListener(listener);
+
+    return tcs.getTask();
+}
+
 }
