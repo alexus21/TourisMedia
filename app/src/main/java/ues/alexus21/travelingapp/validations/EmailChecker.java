@@ -16,6 +16,6 @@ public class EmailChecker {
         return email.contains("@gmail.com") || email.contains("@hotmail.com") ||
                 email.contains("@yahoo.com") || email.contains("@outlook.com") ||
                 email.contains("@live.com") || email.contains("@icloud.com") ||
-                email.contains("@aol.com") || email.contains("@protonmail.com");
+                email.contains("@aol.com") || email.contains("@protonmail.com") || email.contains("@ues.edu.sv");
     }
 }
