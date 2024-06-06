@@ -57,7 +57,7 @@ public class ListaDestinosAdapter extends BaseAdapter {
         return position;
     }
 
-    @SuppressLint({"InflateParams", "UseCompatLoadingForDrawables"})
+    @SuppressLint({"InflateParams", "UseCompatLoadingForDrawables", "SetTextI18n"})
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
@@ -66,8 +66,7 @@ public class ListaDestinosAdapter extends BaseAdapter {
 
         ImageView imageView = convertView.findViewById(R.id.imageView);
         TextView textViewPlaceName = convertView.findViewById(R.id.textViewPlaceName);
-        TextView textViewPlaceDescription = convertView.findViewById(R.id.textViewPlaceDescription);
-        TextView textViewPlaceLocation = convertView.findViewById(R.id.textViewPlaceLocation);
+        TextView textViewPublishedBy = convertView.findViewById(R.id.textViewPublishedBy);
         ImageView imageViewFavouritePlaceMark = convertView.findViewById(R.id.imageViewFavouritePlaceMark);
 
         ListaDestinos destino = listaDestinos.get(position);
@@ -119,9 +118,8 @@ public class ListaDestinosAdapter extends BaseAdapter {
             context.startActivity(placeReviewActivity);
         });
 
-        textViewPlaceName.setText(destino.getName());
-        textViewPlaceDescription.setText("");
-        textViewPlaceLocation.setText(destino.getLocation());
+        textViewPlaceName.setText(destino.getName() + ", " + destino.getLocation());
+        textViewPublishedBy.setText("Anónimo");
 
         return convertView;
     }
