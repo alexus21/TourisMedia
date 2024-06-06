@@ -24,6 +24,7 @@
         app:layout_constraintVertical_bias="0.023" />
 
     <ListView
+        android:id="@+id/listViewReviews"
         android:layout_width="match_parent"
         android:layout_height="725dp"
         app:layout_constraintBottom_toBottomOf="parent"

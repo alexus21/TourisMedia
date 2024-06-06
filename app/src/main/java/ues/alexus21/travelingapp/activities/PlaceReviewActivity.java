@@ -134,9 +134,9 @@ public class PlaceReviewActivity extends AppCompatActivity {
         textViewDescription.setText(getIntent().getStringExtra("placeDescription"));
         textViewLocation.setText("Ubicación: " + getIntent().getStringExtra("placeLocation"));
 
-        // Asignar el rating a la actividad
+        /*// Asignar el rating a la actividad
         float rating = getIntent().getFloatExtra("rating", 0);
-        ratingBar.setRating(rating);
+        ratingBar.setRating(rating);*/
 
         btnSetRating.setOnClickListener(v -> {
             String comments = editTextAddComments.getText().toString().trim();
@@ -169,6 +169,8 @@ public class PlaceReviewActivity extends AppCompatActivity {
             @Override
             public void onClick(@NonNull View widget) {
                 Intent registerIntent = new Intent(PlaceReviewActivity.this, targetActivity);
+                registerIntent.putExtra("destinationId", getIntent().getStringExtra("destinationId"));
+                registerIntent.putExtra("placeName", getIntent().getStringExtra("placeName"));
                 startActivity(registerIntent);
                 finish();
             }
@@ -187,27 +189,40 @@ public class PlaceReviewActivity extends AppCompatActivity {
 
     void saveComments(String comments, String userFirebaseId, String imageId, String destinationId) {
         reference = FirebaseDatabase.getInstance().getReference();
-
-        /*Comments userComments = new Comments(comments, userFirebaseId, imageId);*/
         Comentarios comentario = new Comentarios(comments, userFirebaseId);
-        System.out.println("ImageID: " + imageId);
 
-        reference.child("comments").child(destinationId).push().setValue(comentario)
-                .addOnSuccessListener(aVoid -> {
-                    mostrarMensaje("Comentario guardado correctamente");
-                })
-                .addOnFailureListener(e -> {
-                    mostrarMensaje("Error al guardar comentario");
-                });
+        reference.child("comments").child(destinationId).addListenerForSingleValueEvent(new ValueEventListener() {
+            boolean isCommentUpdated = false;
 
-        /*reference.child("comments").push().setValue(userComments)
-                .addOnSuccessListener(aVoid -> {
-                    mostrarMensaje("Comentario guardado correctamente");
-                })
-                .addOnFailureListener(e -> {
-                    mostrarMensaje("Error al guardar comentario");
-                });*/
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Comentarios comentarioExistente = dataSnapshot.getValue(Comentarios.class);
+                    if (comentarioExistente != null && comentarioExistente.getId_user().equals(userFirebaseId)) {
+                        comentarioExistente.setComment(comments);
+                        reference.child("comments").child(destinationId)
+                                .child(dataSnapshot.getKey()).setValue(comentarioExistente)
+                                .addOnSuccessListener(aVoid -> mostrarMensaje("Comentario actualizado correctamente"))
+                                .addOnFailureListener(e -> mostrarMensaje("Error al actualizar comentario"));
+                        isCommentUpdated = true;
+                        break;
+                    }
+                }
+
+                if (!isCommentUpdated) {
+                    reference.child("comments").child(destinationId).push().setValue(comentario)
+                            .addOnSuccessListener(aVoid -> mostrarMensaje("Comentario guardado correctamente"))
+                            .addOnFailureListener(e -> mostrarMensaje("Error al guardar comentario"));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                mostrarMensaje("Error al guardar comentario");
+            }
+        });
     }
+
 
     void saveRating(float rating, String userFirebaseId, String imageId, String destinationId) {
         reference = FirebaseDatabase.getInstance().getReference();
@@ -258,47 +273,11 @@ public class PlaceReviewActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-        /*reference.child("ratings").push().setValue(userRating)
-                .addOnSuccessListener(aVoid -> {
-                    mostrarMensaje("Comentario guardado correctamente");
-                })
-                .addOnFailureListener(e -> {
-                    mostrarMensaje("Error al guardar comentario");
-                });*/
     }
 
     private void mostrarMensaje(String mensaje) {
         Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
-
-    /*public Task<Float> getRatingFirebase(String destinationId, String userId) {
-        TaskCompletionSource<Float> tcs = new TaskCompletionSource<>();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-
-        reference.child("ratings").child(destinationId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                float value = 6.0f;
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Rating rating = dataSnapshot.getValue(Rating.class);
-                    if (rating.getId_user().equals(userId)) {
-                        value = rating.getRating();
-                        break;
-                    }
-                }
-                tcs.setResult(value);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                tcs.setException(error.toException());
-            }
-        });
-
-        return tcs.getTask();
-    }*/
 
     public Task<Float> getRatingFirebase(String destinationId, String userId) {
     TaskCompletionSource<Float> tcs = new TaskCompletionSource<>();
