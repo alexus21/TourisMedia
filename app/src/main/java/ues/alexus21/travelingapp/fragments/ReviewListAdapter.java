@@ -65,7 +65,7 @@ public class ReviewListAdapter extends BaseAdapter {
 
         textViewPlace.setText(destinationName);
 
-        textViewUser.setText(commentRatings.get(position).getRating().getId_user());
+        textViewUser.setText("");
         ratingBar2.setRating(commentRatings.get(position).getRating().getRating());
         textViewComment.setText(commentRatings.get(position).getComentario().getComment());
 
