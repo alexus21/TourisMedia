@@ -23,22 +23,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/imgDestino"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+        android:layout_width="278dp"
+        android:layout_height="198dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:background="@android:color/transparent"
-        android:foreground="@drawable/icon_galeria_color"
         android:foregroundGravity="fill"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.069" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonAddNewImage"
+        app:layout_constraintVertical_bias="0.111" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/nombre_text_input_layout"
@@ -55,13 +53,13 @@
         app:layout_constraintVertical_bias="0.115">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextAddComments"
+            android:id="@+id/editTextPlaceName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/comfortaa_regular"
-            android:inputType="textPassword"
-            android:textColor="@color/white"
-            android:textSize="18sp"
+            android:inputType="text"
+            android:textColor="@color/blue_rackley"
+            android:textSize="16sp"
             app:passwordToggleEnabled="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -82,13 +80,13 @@
         app:layout_constraintVertical_bias="0.055">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtPassword"
+            android:id="@+id/editTextPlaceDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/comfortaa_regular"
-            android:inputType="textPassword"
-            android:textColor="@color/white"
-            android:textSize="18sp"
+            android:inputType="text"
+            android:textColor="@color/blue_rackley"
+            android:textSize="16sp"
             app:passwordToggleEnabled="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -108,26 +106,26 @@
         app:layout_constraintVertical_bias="0.085">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtRetypedPassword"
+            android:id="@+id/editTextPlaceLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/comfortaa_regular"
-            android:inputType="textPassword"
-            android:textColor="@color/white"
-            android:textSize="18sp"
+            android:inputType="text"
+            android:textColor="@color/blue_rackley"
+            android:textSize="16sp"
             app:passwordToggleEnabled="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btnSetRating"
+        android:id="@+id/btnPublish"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="48dp"
         android:background="@drawable/bg_boton_agregardestino"
         android:fontFamily="@font/comfortaa_bold"
-        android:text="Añadir"
+        android:text="Publicar"
         android:textColor="@color/blue_rackley"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -136,6 +134,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ubicacion_text_input_layout"
         app:layout_constraintVertical_bias="0.129" />
+
+    <Button
+        android:id="@+id/buttonAddNewImage"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/bg_boton_agregardestino"
+        android:fontFamily="@font/comfortaa_bold"
+        android:text="Añadir imagen"
+        android:textColor="@color/blue_rackley"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.053" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
