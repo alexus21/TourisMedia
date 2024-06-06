@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import ues.alexus21.travelingapp.R;
 import ues.alexus21.travelingapp.activities.PlaceReviewActivity;
+import ues.alexus21.travelingapp.firebasedatacollection.FirebaseDataCollection;
 import ues.alexus21.travelingapp.models.ListaDestinos;
 
 public class ListaDestinosAdapter extends BaseAdapter {
@@ -108,18 +109,28 @@ public class ListaDestinosAdapter extends BaseAdapter {
                 .load(destino.getImg_url())
                 .into(imageView);
 
+        FirebaseDataCollection.getEmailFromDestinationId(destino.getId(), email -> {
+            if (email != null) {
+                textViewPublishedBy.setText("Publicación de: " + email.split("@")[0]);
+            } else {
+                textViewPublishedBy.setText("Publicación anónima");
+            }
+        });
+
+        textViewPlaceName.setText(destino.getName() + ", " + destino.getLocation());
+//        textViewPublishedBy.setText("Anónimo");
+
         imageView.setOnClickListener(v -> {
             Intent placeReviewActivity = new Intent(context, PlaceReviewActivity.class);
+
             placeReviewActivity.putExtra("imageUrl", destino.getImg_url());
             placeReviewActivity.putExtra("placeName", destino.getName());
             placeReviewActivity.putExtra("placeLocation", destino.getLocation());
             placeReviewActivity.putExtra("placeDescription", destino.getDescription());
             placeReviewActivity.putExtra("placeId", destino.getId());
+
             context.startActivity(placeReviewActivity);
         });
-
-        textViewPlaceName.setText(destino.getName() + ", " + destino.getLocation());
-        textViewPublishedBy.setText("Anónimo");
 
         return convertView;
     }

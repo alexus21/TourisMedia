@@ -23,7 +23,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Objects;
 import java.util.UUID;
 
 import ues.alexus21.travelingapp.DatabaseSingleton;
@@ -138,7 +137,7 @@ public class NuevoPostActivity extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
         byte[] imageBytes = byteArrayOutputStream.toByteArray();
         String imageName = UUID.randomUUID().toString() + ".jpg";
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("images/" + imageName);
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("images/" + localUserDAO.getUserId() + "/" + imageName);
         UploadTask uploadTask = storageRef.putBytes(imageBytes);
 
         handleUploadTask(uploadTask, storageRef);
@@ -146,7 +145,7 @@ public class NuevoPostActivity extends AppCompatActivity {
 
     private void uploadImageToFirebaseStorage(Uri imageUri) {
         String imageName = UUID.randomUUID().toString() + ".jpg";
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("images/" + imageName);
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("images/" + localUserDAO.getUserId() + "/" + imageName);
         UploadTask uploadTask = storageRef.putFile(imageUri);
 
         handleUploadTask(uploadTask, storageRef);
@@ -168,12 +167,13 @@ public class NuevoPostActivity extends AppCompatActivity {
     }
 
     private void saveImageInfoToDatabase(String imageUrl) {
+        // Obtener datos de la interfaz de usuario
         String placeName = editTextPlaceName.getText().toString();
         String placeDescription = editTextPlaceDescription.getText().toString();
         String placeLocation = editTextPlaceLocation.getText().toString();
         String userId = localUserDAO.getUserId();
-        String destinationId = UUID.randomUUID().toString();
 
+        // Crear un nuevo destino
         ListaDestinos destino = new ListaDestinos(
                 placeDescription,
                 imageUrl,
@@ -182,18 +182,24 @@ public class NuevoPostActivity extends AppCompatActivity {
                 userId
         );
 
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference().child("destination").child(destinationId);
-        databaseRef.setValue(destino).addOnSuccessListener(aVoid -> {
-            Log.d("Firebase", "Database entry created successfully");
-            Toast.makeText(this, "Publicación creada exitosamente", Toast.LENGTH_SHORT).show();
-            enableUploadButton();
-            startActivity(new Intent(NuevoPostActivity.this, HomeActivity.class));
-            finish();
-        }).addOnFailureListener(e -> {
-            Log.e("Firebase", "Failed to create database entry", e);
-            enableUploadButton();
-        });
+        // Obtener una referencia a Firebase Database
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
+        // Insertar destino en Firebase
+        reference.child("destination").push().setValue(destino)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("Firebase", "Database entry created successfully");
+                    mostrarMensaje("Publicación exitosa");
+                    enableUploadButton();
+                    startActivity(new Intent(NuevoPostActivity.this, HomeActivity.class));
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("Firebase", "Failed to create database entry", e);
+                    enableUploadButton();
+                });
     }
+
 
     private void disableUploadButton() {
         btnPublish.setEnabled(false);

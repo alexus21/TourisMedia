@@ -162,4 +162,30 @@ public class FirebaseDataCollection extends AppCompatActivity {
             }
         });
     }
+
+    public static void getEmailFromDestinationId(String id, EmailCallback callback) {
+        databaseRef.orderByChild("id").equalTo(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    String email = userSnapshot.child("email").getValue(String.class);
+                    System.out.println("Email remoto: " + email);
+                    callback.onCallback(email);
+                    return;
+                }
+                callback.onCallback(null); // No se encontró el email
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("DatabaseError", "Error al leer el ID de Firebase", databaseError.toException());
+                callback.onCallback(null);
+            }
+        });
+    }
+
+    public interface EmailCallback {
+        void onCallback(String email);
+    }
+
 }
